@@ -31,10 +31,10 @@ if(!isset($_SESSION['zalogowany']))
      <a href="wyloguj.php"><div class="menu">Wyloguj się</div></a>
   </div>
     <main>
-      <div style="margin-left:auto; margin-right:auto; width:950px;">
-
+      
+<div id="ContainserForImage">
         <form action="edit.php" method="POST">
-          <button  type="submit">
+          <button  type="submit" >
             <i style="font-size:48px;" class="demo-icon icon-pencil" > </i>
           </button>
         <input type="hidden" name="id_img" value="<?php echo $_POST['id_img'] ?>">
@@ -43,14 +43,14 @@ if(!isset($_SESSION['zalogowany']))
 
       </form>
       <?php
-      echo"</br> </br>";
+     
         echo '<div style="float:left;" class="img"><img style="float:left;" class="img_size" src="'.$_POST['source'].'" /></div>';
 
 
 
       ?>
 
-      <form action="delete.php" method="POST">
+      <form action="delete.php" onclick='confirm("Czy naperno chcesz usunąć to zdjecie")' method="POST">
         <button type="submit">
           <i style="font-size:48px;" class="demo-icon icon-trash-empty" > </i>
         </button>
@@ -58,8 +58,8 @@ if(!isset($_SESSION['zalogowany']))
       <input type="hidden" name="file_name" value="<?php echo $_POST['file_name'] ?>">
 
     </form>
-    <div style="clear:both"></div>
-</div>
+   </div>
+
     </main>
 </body>
 </html>

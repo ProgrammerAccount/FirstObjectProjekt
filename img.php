@@ -75,6 +75,7 @@ if(!isset($_SESSION['zalogowany']))
             while ($ile--)
             {
               $tab=$return->fetch_assoc();
+              echo '<div class="formContainer">';
               echo '<form action="manager.php" method="POST">';
               echo '<input type="hidden" name="id_img" value="'.$tab['id'].'">';
               $source="Upload/".$id."/img"."/".$tab['file_name'];
@@ -82,8 +83,9 @@ if(!isset($_SESSION['zalogowany']))
               echo '<input type="hidden" name="source" value="'.$source.'">';
               echo '<input type="hidden" name="file_name" value="'.$tab['file_name'].'">';
               
-              echo '<div class="img"><input alt="jakis zdjecie"  class="img_size" type="image" src="'.$source.'" alt="Submit Form" /> ';
+              echo '<div class="img"><input alt="Nie znalazłem zdjecia!"  class="img_size" type="image" src="'.$source.'" alt="Submit Form" /> ';
               echo "</form>";
+              echo "</div>";
             }
 
         }

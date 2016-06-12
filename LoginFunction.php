@@ -12,25 +12,28 @@ public  $error_captcha;
   {
 
       $res=file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secret_key&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR']);
+		$response=json_decode($res);
 
       if(!$captcha)
       {
 
           header("Location: index.php");
-          return $_SESSION['recaptcha']='<div class="bad">Pokaż że nie jestęś robotem!</div>';
+          $this->error_captcha="Pokaż że nie jestęś robotem!";
           exit;
       }
-      if($res.success==false)
+      if($response->success==false)
       {
-          $_SESSION['recaptcha']='<div class="bad">Pokaż że nie jestęś robotem!</div>';
+          $this->error_captcha="Pokaż że nie jestęś robotem!";
           header("Location: index.php");
           exit;
       }
 
   }
   function LoginPassVerifyConnect($email,$password)
-  {
-    $email=htmlentities($email);
+  {	
+  	if($this->error_captcha=="")
+  	{
+  	$email=htmlentities($email);
 
     //connect
     require('connect.php');
@@ -59,17 +62,19 @@ public  $error_captcha;
         }
         else
         {
-          $_SESSION['b_email']='<div class="bad">Nie ma takiego konta.</div>';
+         return "Nie ma takiego konta.";
           header("Location: index.php");
         }
 
       }
+  	
       else
       {
-      $_SESSION['b_email']='<div class="bad">Nie ma takiego konta.</div>';
+      return "Nie ma takiego konta";
       header("Location: index.php");
       }
   }
+}
 }
 }
 }

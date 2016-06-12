@@ -61,10 +61,22 @@ public $good=true;
  	}
  }
  //---------------
- public function ElseName($name)
+ public function ElseName($name,$id)
  {
-
-    $this->file_name=md5($name).".".$this->file_type;
+ 	$i=0;
+	$this->file_name=md5($name).".".$this->file_type;
+	require_once ("ConnectSQL.php");
+	$return=SQLConnect("SELECT * FROM img WHERE file_name='".$this->file_name."' AND '".$id."'");
+	if($return != false)
+	if($return->num_rows > 0)
+	while($return->num_rows >0)
+	{
+		
+		$i++;
+		$this->file_name=$i.$this->file_name;
+		$return=SQLConnect("SELECT * FROM img WHERE file_name='".$this->file_name."' AND '".$id."'");
+	}
+	
  }
 
  public function VerifyText($text_to_verify,$how_much_characters)
@@ -96,10 +108,24 @@ public $good=true;
  		return true;
  	}
  }
- function test()
+ function ValideDate($date)
  {
- 	if($this->good==true) echo "true";
- 	if($this->good==false) echo "false";
+ 	if($date)
+ 	{
+		if(strlen($date)==10)
+		{
+		 	if((preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$date))||(preg_match("/^[0-9]{4}.(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$date)))
+		 	{
+		 		str_replace('%.%', "-",$date);	
+		 	}
+		}
+		else
+		{
+			$this->good=false;
+			return 'Zle wpisaleś date sprobuj tak np. "2016.05.12"';
+		}
+ 	}
+ 		
  	
  	
  }

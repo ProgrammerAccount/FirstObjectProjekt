@@ -6,19 +6,10 @@ if(!isset($_SESSION['zalogowany']))
     exit;
 }
 
-require_once('connect.php');
-$connect=new mysqli($host,$user,$pass,$base);
-if($connect->connect_error)
-{
-  echo "Error ".$connect->connect_errno;
-}
-else
-  {
+require_once('ConnectSQL.php');
     $id_img=$_POST['id_img'];
     $id_user=$_SESSION['id'];
-    $return=$connect->query("DELETE FROM img WHERE id='".$id_img."' AND id_user='".$id_user."' AND file_name='".$_POST['file_name']."'");
-    $connect->close();
+	SQLConnect("DELETE FROM img WHERE id='".$id_img."' AND id_user='".$id_user."' AND file_name='".$_POST['file_name']."'");
     header("Location:img.php");
-}
  ?>
 

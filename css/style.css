@@ -99,12 +99,19 @@ a:hover .zakladki{
    border-radius: 15px;
    padding-top: 5px;
  }
+ .formContainer
+ {
+ margin-left:auto;
+ margin-right:auto;
+ height:500px;
+ width:700px;
+ 
+ }
  .img
  {
    height: 500px;
    width: 700px;
-   margin-left: auto;
-   margin-right: auto;
+
    border:10px dashed  #8c8c8c;
    text-align: center;
    margin-top:80px;
@@ -114,6 +121,8 @@ a:hover .zakladki{
  {
    height: 500px;
    width: 700px;
+
+
 
  }
 
@@ -139,3 +148,9 @@ font-family: Verdana, Arial, sans-serif;
  		font-size: 11px;
  		color: #4B4B4B;
         }
+#ContainserForImage
+{
+	width:950px;
+	margin-left:auto;
+	margin-right:auto;
+}
