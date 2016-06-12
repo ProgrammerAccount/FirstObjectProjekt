@@ -30,25 +30,14 @@ public  $error_captcha;
 
   }
   function LoginPassVerifyConnect($email,$password)
-  {	
+  {
   	if($this->error_captcha=="")
   	{
   	$email=htmlentities($email);
 
     //connect
-    require('connect.php');
-    $connect=new mysqli($host,$user,$pass,$base);
-    $email=$connect->real_escape_string($email);
-    if($connect->connect_error)
-    {
-      echo "ERROR :".$connect->connect_errno;
-    }
-    else
-    {
-
-    if($result=$connect->query("SELECT * FROM user WHERE email='".$email."'"))
-    {
-      $connect->close();
+    require('ConnectSQL.php');
+  $result=SQLConnect("SELECT * FROM user WHERE email='".$email."'");
       if($result->num_rows>0)
       {
         $array=$result->fetch_assoc();
@@ -67,7 +56,7 @@ public  $error_captcha;
         }
 
       }
-  	
+
       else
       {
       return "Nie ma takiego konta";
@@ -76,7 +65,7 @@ public  $error_captcha;
   }
 }
 }
-}
-}
+
+
 
 ?>
