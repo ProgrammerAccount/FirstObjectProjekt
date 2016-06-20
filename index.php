@@ -14,7 +14,8 @@ require('LoginFunction.php');
 $login= new Login;
 
 $login->RecaptchaVerify($_POST['g-recaptcha-response'],'6LcT2B0TAAAAAKj9Wgab_UfuF-sWJcKqtUeYMfmo');
-list($_SESSION['id'],$_SESSION['name'],$_SESSION['zalogowany'],$_SESSION['email'])=$login->LoginPassVerifyConnect($_POST['login'],$_POST['pass']);
+list($_SESSION['id'],$_SESSION['name'],$_SESSION['zalogowany'],$_SESSION['email'])=
+$login->LoginPassVerifyConnect($_POST['login'],$_POST['pass']);
 
 }
 ?>

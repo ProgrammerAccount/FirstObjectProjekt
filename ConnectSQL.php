@@ -15,6 +15,7 @@ function SQLConnect($query)
 	{
 	$connect->close();
 	return $result;	
+	$result->free();
 	}
 	else return false;
 	}

@@ -43,7 +43,7 @@ if(!isset($_SESSION['zalogowany']))
 
    </div>
    <div id="menu">
-     <a href="img.php"><div class="menu" style="border-left: 2px dotted blue;">Muzyka</div></a>
+     <a href="muzyka.php"><div class="menu" style="border-left: 2px dotted blue;">Muzyka</div></a>
      <a href="img.php"><div class="menu">zdjecia</div></a>
      <a href="img.php"><div class="menu">Filmy</div></a>
      <a href="wyloguj.php"><div class="menu">Wyloguj się</div></a>
@@ -67,21 +67,22 @@ if(!isset($_SESSION['zalogowany']))
         
         if($ret->num_rows>0)
         {
-        $return=$connect->query("SELECT * FROM img WHERE id_user='".$id."' ORDER BY id DESC ");
-        $ile=$return->num_rows;
+        $result=$connect->query("SELECT * FROM img WHERE id_user='".$id."' ORDER BY id DESC ");
+        $ile=$result->num_rows;
+        echo "SELECT * FROM img WHERE id_user='".$id."' ORDER BY id DESC ";
         if($ile>0)
         {
 
             while ($ile--)
             {
-              $tab=$return->fetch_assoc();
+              $arrayWithResult=$result->fetch_assoc();
               echo '<div class="formContainer">';
               echo '<form action="manager.php" method="POST">';
-              echo '<input type="hidden" name="id_img" value="'.$tab['id'].'">';
-              $source="Upload/".$id."/img"."/".$tab['file_name'];
-              echo '<input type="hidden" name="opis" value="'.$tab['comment'].'">';
+              echo '<input type="hidden" name="id_img" value="'.$arrayWithResult['id'].'">';
+              $source="Upload/".$id."/img"."/".$arrayWithResult['file_name'];
+              echo '<input type="hidden" name="opis" value="'.$arrayWithResult['comment'].'">';
               echo '<input type="hidden" name="source" value="'.$source.'">';
-              echo '<input type="hidden" name="file_name" value="'.$tab['file_name'].'">';
+              echo '<input type="hidden" name="file_name" value="'.$arrayWithResult['file_name'].'">';
               
               echo '<div class="img"><input alt="Nie znalazłem zdjecia!"  class="img_size" type="image" src="'.$source.'" alt="Submit Form" /> ';
               echo "</form>";
@@ -89,6 +90,8 @@ if(!isset($_SESSION['zalogowany']))
             }
 
         }
+        $result->free();
+        $ret->free();
       }
       }
       ?>

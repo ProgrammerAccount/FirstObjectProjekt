@@ -76,6 +76,7 @@ public $good=true;
 		$this->file_name=$i.$this->file_name;
 		$return=SQLConnect("SELECT * FROM img WHERE file_name='".$this->file_name."' AND '".$id."'");
 	}
+	$return->free();
 	
  }
 

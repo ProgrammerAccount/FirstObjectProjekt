@@ -24,8 +24,10 @@
 		if($result->num_rows>0)
 		{
 			$this->good=false;
+			
 			return '<div class="bad">Już jest konto o taki adresie e-mail!</div>';
 		}
+		else $result->free();
 			
 
 	 }
@@ -69,6 +71,7 @@
         $rezultat=$connect->query("SELECT * FROM user WHERE email='".$this->email."'");
         $array=$rezultat->fetch_assoc();
 				$connect->close();
+				$rezultat->free();
         return array ($array['id'],$this->email,$this->name);
 			}
 

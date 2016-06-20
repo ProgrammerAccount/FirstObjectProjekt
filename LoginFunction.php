@@ -40,14 +40,14 @@ public  $error_captcha;
   $result=SQLConnect("SELECT * FROM user WHERE email='".$email."'");
       if($result->num_rows>0)
       {
-        $array=$result->fetch_assoc();
+        $arrayWithResult=$result->fetch_assoc();
 
-        if(password_verify($password,$array['pass']))
+        if(password_verify($password,$arrayWithResult['pass']))
         {
           $login=true;
 
           header("Location: home.php");
-          return array($array['id'],$array['name'],$login,$email);
+          return array($arrayWithResult['id'],$arrayWithResult['name'],$login,$email);
         }
         else
         {
@@ -60,6 +60,7 @@ public  $error_captcha;
       else
       {
       return "Nie ma takiego konta";
+      
       header("Location: index.php");
       }
   }

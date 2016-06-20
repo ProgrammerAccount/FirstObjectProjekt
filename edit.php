@@ -12,7 +12,8 @@ $result=SQLConnect("SELECT * FROM img WHERE id_user='".$_SESSION['id']."' AND fi
     
       if($result->num_rows>0)
       {
-        $tab=$result->fetch_assoc();
+        $arrayWithResult=$result->fetch_assoc();
+        $result->free();
 
       }
   
@@ -37,7 +38,7 @@ $result=SQLConnect("SELECT * FROM img WHERE id_user='".$_SESSION['id']."' AND fi
 
    </div>
    <div id="menu">
-     <a href="img.php"><div class="menu" style="border-left: 2px dotted blue;">Muzyka</div></a>
+     <a href="muzyka.php"><div class="menu" style="border-left: 2px dotted blue;">Muzyka</div></a>
      <a href="img.php"><div class="menu">Filmy</div></a>
      <a href="img.php"><div class="menu">Zdjecia</div></a>
      <a href="wyloguj.php"><div class="menu">Wyloguj się</div></a>
@@ -46,10 +47,10 @@ $result=SQLConnect("SELECT * FROM img WHERE id_user='".$_SESSION['id']."' AND fi
       <?php
       echo '<div style="float:left; margin-left:50px;" class="img"><img  class="img_size" src="'.$_POST['source'].'" /></div>';
       echo   '<form action="UpdatePicture.php" method="POST">';
-      echo '<input value="'.$tab['comment'].'" type="text"name="comment" placeholder="komentarz "  maxlength="50"><br/>';
-      echo '<input  value="'.$tab['Name'].'" type="text"name="name" placeholder="Nazwa Zdjecia" maxlength="10"><br/>';
-      echo '<input value="'.$tab['place'].'" type="text"name="place" placeholder="Miejsce"  maxlength="30"><br/>';
-      echo '<input value="'.$tab['date'].'" type="text"name="data" placeholder="Data" maxlength="30"><br/>';
+      echo '<input value="'.$arrayWithResult['comment'].'" type="text"name="comment" placeholder="komentarz "  maxlength="50"><br/>';
+      echo '<input  value="'.$arrayWithResult['Name'].'" type="text"name="name" placeholder="Nazwa Zdjecia" maxlength="10"><br/>';
+      echo '<input value="'.$arrayWithResult['place'].'" type="text"name="place" placeholder="Miejsce"  maxlength="30"><br/>';
+      echo '<input value="'.$arrayWithResult['date'].'" type="text"name="data" placeholder="Data" maxlength="30"><br/>';
       echo '<input type="submit" value="Zapisz">       <input type="hidden" name="id_img" value="'.$_POST['id_img'].'">';
       echo' <input type="hidden" name="file_name" value="'.$_POST['file_name'] .'"></form>';
       ?>

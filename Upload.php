@@ -68,7 +68,7 @@ SQLConnect($sql_query);
 
    </div>
    <div id="menu">
-     <a href="img.php"><div class="menu" style="border-left: 2px dotted blue;">Muzyka</div></a>
+     <a href="muzyka.php"><div class="menu" style="border-left: 2px dotted blue;">Muzyka</div></a>
      <a href="img.php"><div class="menu">zdjecia</div></a>
      <a href="img.php"><div class="menu">Filmy</div></a>
      <a href="wyloguj.php"><div class="menu">Wyloguj się</div></a>
