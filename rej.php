@@ -11,10 +11,12 @@ $rej->password=$_POST['pass'];
 $rej->repeat_password=$_POST['passv2'];
 $rej->name=$_POST['name'];
 
+
 $rej->VerifyEmial();
 $rej->VerifyOther();
 list($id,$email,$name)=$rej->ConnectInsert();
 $rej->CreateDir($id);
+list($_SESSION['error_pass'],$_SESSIONp['error_email'])=$rej->ReturnErrorPass_Email();
 if($rej->good==true)
 {
   $_SESSION['zalogowany']=true;

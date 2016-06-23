@@ -8,6 +8,8 @@
 	public $name;
 	public $good=true;
 	public $save_email;
+	public $error_email="";
+	public $error_password="";
 	 //metody
 	function VerifyEmial()
 	 {
@@ -16,7 +18,7 @@
 		if($save_email!=$this->email)
 		{
 			$this->good=false;
-			return '<div class="bad">Ten email nie jest poprawny!</div>';
+			$this->error_email="Ten adres e-mail nie jest poprawny!";
 		}
 		require("ConnectSQL.php");
 		$result=SQLConnect("SELECT * FROM user WHERE email='".$save_email."'");
@@ -25,7 +27,7 @@
 		{
 			$this->good=false;
 			
-			return '<div class="bad">Już jest konto o taki adresie e-mail!</div>';
+			$this->error_email="Już jest konto o taki adresie e-mail!";
 		}
 		else $result->free();
 			
@@ -36,7 +38,7 @@
 		 if(strlen($this->password)<8)
 		 {
 			 	$this->good=false;
-				return '<div class="bad">Hasło jest za powino zawierać minimalnnie 8 znaków!</div>';
+				$this->error_password="Hasło jest za powino zawierać minimalnnie 8 znaków!";
 		 }
      else return true;
 
@@ -94,6 +96,10 @@
 	    fopen("Upload/".$id."/muzyka/index.php","w+");
 	    return "true";
 	    }
+	  }
+	  function ReturnErrorPass_Email()
+	  {
+		  return array ($this->error_password,$this->error_email);
 	  }
 	
  }

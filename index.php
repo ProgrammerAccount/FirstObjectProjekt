@@ -16,7 +16,7 @@ $login= new Login;
 $login->RecaptchaVerify($_POST['g-recaptcha-response'],'6LcT2B0TAAAAAKj9Wgab_UfuF-sWJcKqtUeYMfmo');
 list($_SESSION['id'],$_SESSION['name'],$_SESSION['zalogowany'],$_SESSION['email'])=
 $login->LoginPassVerifyConnect($_POST['login'],$_POST['pass']);
-
+list($_SESSION['captcha'],$_SESSION['login'])=$login->ShowError();
 }
 ?>
 
@@ -35,16 +35,28 @@ $login->LoginPassVerifyConnect($_POST['login'],$_POST['pass']);
 	<form autocomplete="off" method="POST">
 	<div id="logowanie">
 			<!--Logowanie-->
-		<input type="email" 	  name="login" 	placeholder="E-mail"/>
-		<input type="password" name="pass" 	placeholder="Hasło"/>
-		<div style=" margin-left:85px"><div class="g-recaptcha" data-sitekey="6LcT2B0TAAAAAMZGMEWRRSSldJFFNSWvVAzXNYwy"></div></div>
+		<input type="email" 	name="login" 	placeholder="E-mail"/>
+		<input type="password" 	name="pass" 	placeholder="Hasło"/>
+		  <div style=" margin-left:85px"><div class="g-recaptcha" data-sitekey="6LcT2B0TAAAAAMZGMEWRRSSldJFFNSWvVAzXNYwy"></div></div>
+		
 		<input type="submit"   value="Zaloguj się"/>
 
 	
 	</div>
 	</form>
-			<div id="error">
-		
+			<div class="error">
+				<?php
+				if(isset($_SESSION['login']))
+				{
+					echo $_SESSION['login'];
+					unset($_SESSION['login']);
+				}
+				if(isset($_SESSION['captcha']))
+				{
+					echo $_SESSION['captcha'];
+					unset($_SESSION['captcha']);
+				}
+				?>
 			</div>
 			<h3 style="text-align: center;">Nie masz konta? Stwórz je teraz!</h3>
 			<!--Rejstracja-->
@@ -55,6 +67,13 @@ $login->LoginPassVerifyConnect($_POST['login'],$_POST['pass']);
 	<input type="password" name="passv2" 	placeholder="Powtórz hasło"/>
 	<input type="text" 	  name="name" 	placeholder="Imie"/>	
 	<input type="submit"   value="Zarejstruj się"/>
+	
+				<div class="error">
+				<?php
+				if(isset($_SESSION['error_pass'])) echo $_SESSION['error_pass'];
+				if(isset($_SESSIONp['error_email'])) echo $_SESSION['error_email'];
+				?>
+			</div>
 	</div>
 
 	

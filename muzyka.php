@@ -26,7 +26,7 @@ function ShowMusic($id)
 		
 		echo '<div class="music">';
 		echo '<div class="info">';
-		echo "<br/>Wykonawca: ".$arrayWithResult['artist'];
+		echo "<br/>HosWykonawca: ".$arrayWithResult['artist'];
 		echo "<br/>Album: ".$arrayWithResult['album'];
 		echo "<br/>Gatunek: ".$arrayWithResult['genre'];
 		echo "<br/>Tytuł: ".$arrayWithResult['title'];

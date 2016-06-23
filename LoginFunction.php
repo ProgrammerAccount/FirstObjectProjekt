@@ -5,7 +5,8 @@ class Login
 public  $email;
 public  $password;
 public  $captcha;
-public  $error_captcha;
+public  $error_captcha="";
+public  $error_login="";
 
   //metody
   function RecaptchaVerify($captcha,$secret_key)
@@ -17,15 +18,13 @@ public  $error_captcha;
       if(!$captcha)
       {
 
-          header("Location: index.php");
           $this->error_captcha="Pokaż że nie jestęś robotem!";
-          exit;
+
       }
       if($response->success==false)
       {
           $this->error_captcha="Pokaż że nie jestęś robotem!";
-          header("Location: index.php");
-          exit;
+
       }
 
   }
@@ -51,22 +50,26 @@ public  $error_captcha;
         }
         else
         {
-         return "Nie ma takiego konta.";
-          header("Location: index.php");
+         $this->error_login="Nie ma takiego konta.";
         }
 
       }
 
       else
       {
-      return "Nie ma takiego konta";
+         $this->error_login="Nie ma takiego konta.";
       
-      header("Location: index.php");
       }
   }
+}
+function ShowError()
+{
+return array ($this->error_captcha,$this->error_login);
 }
 }
 
 
 
 ?>
+
+

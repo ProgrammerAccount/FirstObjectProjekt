@@ -21,17 +21,14 @@ input
 	margin-left: auto;
 	margin-right: auto;
 }
-.bad
+.error
 {
   margin-left: auto;
   margin-right: auto;
-  background-color: red;
+  padding: 10px;
   text-align: center;
-  height: 20px;
-  width: 250px;
-  border-radius: 15px;
-  padding-top: 5px;
-}
+  color:red;
+  }
 .recaptcha
 {
   margin-left: auto;
@@ -51,17 +48,16 @@ input[type=text],
 input[type=password],
 input[type=email]
 {
-	  border-radius: 5px;
-	
-  width: 300px;
+	border-radius: 5px;
+	width: 300px;
   padding: 10px;
   height: 20px;
--webkit-box-shadow: 2px 1px 6px 1px rgba(140,140,140,0);
--moz-box-shadow: 2px 1px 6px 1px rgba(140,140,140,0);
-box-shadow: 2px 1px 6px 1px rgba(140,140,140,0);
- border: 2px solid #cccccc;
-    outline: none;
- background-color:none important; 
+  -webkit-box-shadow: 2px 1px 6px 1px rgba(140,140,140,0);
+  -moz-box-shadow: 2px 1px 6px 1px rgba(140,140,140,0);
+  box-shadow: 2px 1px 6px 1px rgba(140,140,140,0);
+  border: 2px solid #cccccc;
+  outline: none;
+  background-color:none important; 
 }
 input[type=text]:focus,
 input[type=password]:focus,
