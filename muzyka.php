@@ -26,11 +26,14 @@ function ShowMusic($id)
 		
 		echo '<div class="music">';
 		echo '<div class="info">';
-		echo "<br/>HosWykonawca: ".$arrayWithResult['artist'];
+		echo "<br/>Wykonawca: ".$arrayWithResult['artist'];
 		echo "<br/>Album: ".$arrayWithResult['album'];
 		echo "<br/>Gatunek: ".$arrayWithResult['genre'];
 		echo "<br/>Tytuł: ".$arrayWithResult['title'];
 		echo '<br/>Link: <a target="_blank" href="'.$arrayWithResult['href'].'">Link do utworu</a>';
+		echo '<audio controls>';
+		echo '<source src="Upload/'.$_SESSION['id'].'/muzyka/'.$arrayWithResult['name'].'" type="audio/mpeg">';
+		echo '</audio>'; 
 		
 		echo '</div>';
 			if(strstr($arrayWithResult['href'], 'youtube'))

@@ -30,25 +30,13 @@ public $good=true;
 
  }
  //---------------
- public function VerifyFile($concent_type,$type)
+ public function VerifyFile($type)
  {
+$obj= new Strategy();
+$obj->setType("image");
 
 
-   if (($this->file_type=="png")||($this->file_type=="gif")||($this->file_type=="jpg")||($this->file_type=="jpeg"))
-   {
 
-      if(strstr($concent_type,$type))
-      {
-      	return true;
-      }
-      else
-      {
-      	$this->good=false;
-
-      	return $this->error_verify='<div class="bad">Nasz serwis obsłoguje tylko rozszezenia png,jpeg,jpg,gif</div>';
-      }
-
-    }
  }
  //---------------
  public function MoveFile($tmp_path,$path)
@@ -133,5 +121,81 @@ public $good=true;
 }
 
 
+interface file
+{
+	public function CheckFile ();
+}
 
+
+
+
+class image extends UploadFile implements file 
+{
+	function CheckFile()
+	{
+	
+   if (($this->file_type=="png")||($this->file_type=="gif")||($this->file_type=="jpg")||($this->file_type=="jpeg"))
+   {
+
+      if(strstr($this->concent_type,"image"))
+      {
+      	return true;
+      }
+      else
+      {
+      	$this->good=false;
+
+      	return $this->error_verify='<div class="bad">Nasz serwis obsłoguje tylko rozszezenia png,jpeg,jpg,gif</div>';
+      }
+	}
+	}
+}
+
+
+
+class audio extends UploadFile implements file 
+{
+	function CheckFile()
+	{
+	
+   if ($this->file_type=="mp3")
+   {
+
+      if(strstr($this->concent_type,"audio"))
+      {
+      	return true;
+      }
+      else
+      {
+      	$this->good=false;
+
+      	return $this->error_verify='<div class="bad">Nasz serwis obsłoguje tylko rozszezenia mp3</div>';
+      }
+	}
+	}
+}
+
+class Strategy
+{
+private $strategy;
+ 
+    public function setType($type) {
+        switch ($type) {
+            case "audio":
+                $this->strategy = new audio();
+                break;
+            case "image":
+                $this->strategy = new image();
+                break;
+            
+        }
+    }
+    public function getType() {
+        return $this->strategy;
+  }	
+	
+	
+}
 ?>
+
+
