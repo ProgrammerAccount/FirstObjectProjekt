@@ -17,7 +17,7 @@ function ShowMusic($id)
 	}
 	else 
 	{
-	$result=$connect->query("SELECT * FROM Music WHERE id_user='".$_SESSION['id']."' ");
+	$result=$connect->query("SELECT * FROM Music WHERE id_user='".$_SESSION['idUser']."' ORDER BY id DESC ");
 	$connect->close();
 	$how_mutch=$result->num_rows;
 	for($i=0;$i<$how_mutch;$i++)
@@ -25,6 +25,14 @@ function ShowMusic($id)
 		$arrayWithResult=$result->fetch_assoc();
 		
 		echo '<div class="music">';
+		echo '<form action="delete.php" method="POST">';
+		echo '<input type="hidden" name="file_name" value="'.$arrayWithResult['file_name'].'">';
+		echo '<input type="hidden" name="id_user" value="'.$_SESSION['idUser'].'">';
+		echo '<input type="hidden" name="id_file" value="'.$arrayWithResult['id'].'">';
+		echo '<input type="hidden" name="whereIsFileToDelete" value="img">';//img or Music
+		echo '<input type="submit"  value="Usuń">';
+		
+		echo "</form>";
 		echo '<div class="info">';
 		echo "<br/>Wykonawca: ".$arrayWithResult['artist'];
 		echo "<br/>Album: ".$arrayWithResult['album'];
@@ -32,7 +40,7 @@ function ShowMusic($id)
 		echo "<br/>Tytuł: ".$arrayWithResult['title'];
 		echo '<br/>Link: <a target="_blank" href="'.$arrayWithResult['href'].'">Link do utworu</a>';
 		echo '<audio controls>';
-		echo '<source src="Upload/'.$_SESSION['id'].'/muzyka/'.$arrayWithResult['name'].'" type="audio/mpeg">';
+		echo '<source src="Upload/'.$_SESSION['idUser'].'/muzyka/'.$arrayWithResult['file_name'].'" type="audio/mpeg">';
 		echo '</audio>'; 
 		
 		echo '</div>';
@@ -87,7 +95,7 @@ border-top: 20px solid gray;
 
     <div id="header">
      Witaj w swoim konciku
-       <?php echo $_SESSION['name']; ?>
+       <?php echo $_SESSION['userName']; ?>
 
 
    </div>
@@ -100,7 +108,7 @@ border-top: 20px solid gray;
     <main>
 		<h4 style="text-align:center;"><a href="UploadMusic.php">Dodaj muzyke</a></h4>
 		<?php 
-		ShowMusic($_SESSION['id']);
+		ShowMusic($_SESSION['idUser']);
 		?>
 		<div style="clear: both;"></div>
 		

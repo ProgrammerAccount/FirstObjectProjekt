@@ -1,6 +1,6 @@
 <?php
 session_start();
-if((!isset($_SESSION['zalogowany']))&&(!isset($_SESSION['id'])))
+if((!isset($_SESSION['zalogowany']))&&(!isset($_SESSION['idUser'])))
 {
   header("Location: index.php");     exit;
 }
@@ -21,8 +21,8 @@ require("Upload_function.php");
 
  $upload->GetSize($_FILES['file']['tmp_name']);
  $upload->VerifyFile($upload->concent_type,'audio');
- $upload->ElseName($file_name,$_SESSION['id']);
- $path_to_move_file="Upload/".$_SESSION['id']."/"."muzyka/".$upload->file_name;
+ $upload->ElseName($file_name,$_SESSION['idUser']);
+ $path_to_move_file="Upload/".$_SESSION['idUser']."/"."muzyka/".$upload->file_name;
  $upload->MoveFile($tmp_name,$path_to_move_file);
 }
 	if((isset($_POST['artist']))&&($_POST['artist']!="")&&(isset($_POST['title']))&&($_POST['title']!=""))
@@ -30,7 +30,7 @@ require("Upload_function.php");
 		require_once 'addMusic.php';
 
   	$musicUpload= new addMusic();
-  	$musicUpload->id_user=$_SESSION['id'];
+  	$musicUpload->id_user=$_SESSION['idUser'];
 		$musicUpload->artist=$musicUpload->sanitization($_POST['artist']);
 		$musicUpload->album=$musicUpload->sanitization($_POST['album']);
 		$musicUpload->genre=$musicUpload->sanitization($_POST['genre']);
@@ -60,7 +60,7 @@ require("Upload_function.php");
 
     <div id="header">
      Witaj w swoim konciku
-       <?php echo $_SESSION['name']; ?>
+       <?php echo $_SESSION['userName']; ?>
 
 
    </div>

@@ -38,7 +38,7 @@ if(!isset($_SESSION['zalogowany']))
 
     <div id="header">
      Witaj w swoim konciku
-       <?php echo $_SESSION['name']; ?>
+       <?php echo $_SESSION['userName']; ?>
 
 
    </div>
@@ -53,7 +53,7 @@ if(!isset($_SESSION['zalogowany']))
 <br/>
 
     <?php
-    $id=$_SESSION['id'];
+    $id=$_SESSION['idUser'];
     require_once('connect.php');
     $connect=new mysqli($host,$user,$pass,$base);
     if($connect->connect_error)
@@ -62,14 +62,13 @@ if(!isset($_SESSION['zalogowany']))
     }
     else
       {
-        $id=$_SESSION['id'];
+        $id=$_SESSION['idUser'];
         $ret=$connect->query("SELECT * FROM user WHERE id='".$id."' AND email='".$_SESSION['email']."' AND name='".$_SESSION['name']."' ");
         
         if($ret->num_rows>0)
         {
         $result=$connect->query("SELECT * FROM img WHERE id_user='".$id."' ORDER BY id DESC ");
         $ile=$result->num_rows;
-        echo "SELECT * FROM img WHERE id_user='".$id."' ORDER BY id DESC ";
         if($ile>0)
         {
 

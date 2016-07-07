@@ -6,7 +6,7 @@ if(!isset($_SESSION['zalogowany']))
     exit;
 }
 require_once('ConnectSQL.php');
-$result=SQLConnect("SELECT * FROM img WHERE id_user='".$_SESSION['id']."' AND file_name='".$_POST['file_name']."' AND id='".$_POST['id_img']."'");
+$result=SQLConnect("SELECT * FROM img WHERE id_user='".$_SESSION['idUser']."' AND file_name='".$_POST['file_name']."' AND id='".$_POST['id_img']."'");
   
   
     
@@ -33,7 +33,7 @@ $result=SQLConnect("SELECT * FROM img WHERE id_user='".$_SESSION['id']."' AND fi
 
     <div id="header">
      Witaj w swoim konciku
-       <?php echo $_SESSION['name']; ?>
+       <?php echo $_SESSION['userName']; ?>
 
 
    </div>

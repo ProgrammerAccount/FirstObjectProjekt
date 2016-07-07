@@ -1,6 +1,6 @@
 <?php
 session_start();
-if((!isset($_SESSION['zalogowany']))&&(!isset($_SESSION['id'])))
+if((!isset($_SESSION['zalogowany']))&&(!isset($_SESSION['idUser'])))
 {
   header("Location: index.php");     exit;
 }
@@ -25,8 +25,8 @@ require("Upload_function.php");
  $place=$upload->VerifyText($_POST['place'],30);
  $upload->GetSize($_FILES['file']['tmp_name']);
  $upload->VerifyFile($upload->concent_type,'image');
- $upload->ElseName($file_name,$_SESSION['id']);
- $path_to_move_file="Upload/".$_SESSION['id']."/"."img/".$upload->file_name;
+ $upload->ElseName($file_name,$_SESSION['idUser']);
+ $path_to_move_file="Upload/".$_SESSION['idUser']."/"."img/".$upload->file_name;
  $upload->MoveFile($tmp_name,$path_to_move_file);
  echo $upload->ValideDate($data);
 
@@ -37,7 +37,7 @@ require("Upload_function.php");
  {
 
 
-$sql_query="INSERT INTO img VALUES(NULL,'".$_SESSION['id']."','".$upload->file_name."','".DATE($data)."','".$place."','".$comment."','".$name."')";
+$sql_query="INSERT INTO img VALUES(NULL,'".$_SESSION['idUser']."','".$upload->file_name."','".DATE($data)."','".$place."','".$comment."','".$name."')";
 require_once('ConnectSQL.php');
 SQLConnect($sql_query);
   }
@@ -63,7 +63,7 @@ SQLConnect($sql_query);
 
     <div id="header">
      Witaj w swoim konciku
-       <?php echo $_SESSION['name']; ?>
+       <?php echo $_SESSION['userName']; ?>
 
 
    </div>

@@ -20,7 +20,7 @@ if(!isset($_SESSION['zalogowany']))
 
     <div id="header">
      Witaj w swoim konciku
-       <?php echo $_SESSION['name']; ?>
+       <?php echo $_SESSION['userName']; ?>
 
 
    </div>

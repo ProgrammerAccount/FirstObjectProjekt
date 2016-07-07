@@ -20,7 +20,7 @@ if(!isset($_SESSION['zalogowany']))
 
     <div id="header">
      Witaj w swoim konciku
-       <?php echo $_SESSION['name']; ?>
+       <?php echo $_SESSION['userName']; ?>
 
 
    </div>
@@ -54,8 +54,9 @@ if(!isset($_SESSION['zalogowany']))
         <button type="submit">
           <i style="font-size:48px;" class="demo-icon icon-trash-empty" > </i>
         </button>
-      <input type="hidden" name="id_img" value="<?php echo $_POST['id_img'] ?>">
+      <input type="hidden" name="id_file" value="<?php echo $_POST['id_img'] ?>">
       <input type="hidden" name="file_name" value="<?php echo $_POST['file_name'] ?>">
+      <input type="hidden" name="whereIsFileToDelete" value="img"><!--img or Music-->
 
     </form>
    </div>
