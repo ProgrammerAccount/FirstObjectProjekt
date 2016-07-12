@@ -1,9 +1,11 @@
 <?php
+
+
 class UploadFile
 {
 //atrybuty
-public $concent_type;
-public $file_type;
+protected  $concent_type;
+protected  $file_type;
 public $tmp_file_name;
 public $file_name;
 public $file_size;
@@ -22,8 +24,10 @@ public $good=true;
  //---------------
  public function CheckTypeFile($tmp_name)//and size
  {
-   $this->concent_type=mime_content_type($tmp_name);
-   $pathinfo=pathinfo($this->file_name,PATHINFO_EXTENSION);
+    
+ 	$this->concent_type=mime_content_type($tmp_name);
+	echo $this->concent_type;
+ 	$pathinfo=pathinfo($this->file_name,PATHINFO_EXTENSION);
    $this->file_type=$pathinfo;
    $this->file_size=filesize($tmp_name);
 
@@ -32,8 +36,14 @@ public $good=true;
  //---------------
  public function VerifyFile($type)
  {
+ 
+	
+	
+
 $obj= new Strategy();
-$obj->setType("image");
+$obj->setType($type);
+if($obj->getType()->CheckFile()==false)
+$this->good=false;
 
 
 
@@ -121,60 +131,33 @@ $obj->setType("image");
 }
 
 
+
 interface file
 {
 	public function CheckFile ();
 }
-
-
-
+		
 
 class image extends UploadFile implements file 
 {
 	function CheckFile()
 	{
-	
-   if (($this->file_type=="png")||($this->file_type=="gif")||($this->file_type=="jpg")||($this->file_type=="jpeg"))
-   {
-
-      if(strstr($this->concent_type,"image"))
-      {
-      	return true;
-      }
-      else
-      {
-      	$this->good=false;
-
-      	return $this->error_verify='<div class="bad">Nasz serwis obsłoguje tylko rozszezenia png,jpeg,jpg,gif</div>';
-      }
-	}
+	if (($this->file_type!="png")&&($this->file_type!="gif")&&($this->file_type!="jpg")&&($this->file_type!="jpeg"))return false;
+    if(!strstr($this->concent_type,"image"))return false;
 	}
 }
-
-
 
 class audio extends UploadFile implements file 
-{
+{	
 	function CheckFile()
 	{
-	
-   if ($this->file_type=="mp3")
-   {
-
-      if(strstr($this->concent_type,"audio"))
-      {
-      	return true;
-      }
-      else
-      {
-      	$this->good=false;
-
-      	return $this->error_verify='<div class="bad">Nasz serwis obsłoguje tylko rozszezenia mp3</div>';
-      }
-	}
-	}
+echo "fiile_tyle".$this->file_type;
+	if ($this->file_type!="mp3") return false;
+	echo $this->concent_type;
+    if(!strstr($this->concent_type,"audio")) return false;
+    if(GetSize()==false) return false;
+ 	}
 }
-
 class Strategy
 {
 private $strategy;
@@ -192,10 +175,9 @@ private $strategy;
     }
     public function getType() {
         return $this->strategy;
-  }	
-	
-	
-}
+  }
+}	
+
 ?>
 
 

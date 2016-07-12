@@ -18,29 +18,22 @@ require("Upload_function.php");
  $upload= new UploadFile;
  $upload->LoadVariabile('file');
  $upload->CheckTypeFile($tmp_name);
-
- $upload->GetSize($_FILES['file']['tmp_name']);
- $upload->VerifyFile($upload->concent_type,'audio');
+ $upload->VerifyFile('audio');
  $upload->ElseName($file_name,$_SESSION['idUser']);
  $path_to_move_file="Upload/".$_SESSION['idUser']."/"."muzyka/".$upload->file_name;
  $upload->MoveFile($tmp_name,$path_to_move_file);
-}
-	if((isset($_POST['artist']))&&($_POST['artist']!="")&&(isset($_POST['title']))&&($_POST['title']!=""))
-	{
-		require_once 'addMusic.php';
+ $file_name=$upload->file_name;
 
+	if($upload->good!=false)
+	{
+	require_once 'addMusic.php';
   	$musicUpload= new addMusic();
   	$musicUpload->id_user=$_SESSION['idUser'];
-		$musicUpload->artist=$musicUpload->sanitization($_POST['artist']);
-		$musicUpload->album=$musicUpload->sanitization($_POST['album']);
-		$musicUpload->genre=$musicUpload->sanitization($_POST['genre']);
-		$musicUpload->title=$musicUpload->sanitization($_POST['title']);
-		$musicUpload->hrefToMusic=$musicUpload->sanitization($_POST['href']);
-		$musicUpload->SendAllToDB($upload->file_name);
-
-
-
-		}
+	$musicUpload->title=$musicUpload->sanitization($_POST['title']);
+	$musicUpload->description=$musicUpload->sanitization($_POST['description']);
+	$musicUpload->SendAllToDB($file_name);
+	}
+}
 ?>
 <html>
 <head>
@@ -75,11 +68,9 @@ require("Upload_function.php");
 <form  method="post" name="UploadImg" enctype="multipart/form-data"  > 
   <input type="file" value="Poszukaj pliku" name="file" accept="audio/*">
   <br/>
-<input type="text"name="artist" placeholder="Wykonawca "  maxlength="30"><br/>
-  <input type="text"name="album" placeholder="Album" maxlength="30"><br/>
-  <input type="text"name="genre" placeholder="Gatunek"  maxlength="30"><br/>
+
    <input type="text"name="title" placeholder="Tytół" maxlength="30"><br/>
-   <input type="text"name="href" placeholder="Link do muzyki" maxlength="60"><br/>
+   <input type="text"name="description" placeholder="opis" maxlength="60"><br/>
 <div id="errors"></div>
 
 
@@ -87,31 +78,7 @@ require("Upload_function.php");
     <input type="submit" value="Wyslij Plik">
     </div>
  </form>
- <script>
-  function CheckDate()
-  {
-	var date=document.getElementsByName('data').value;
-	var test= new RegExp("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/");
-	document.getElementById("errors").innerHTML=date.length;
-	if(!test.test(date))
-	{
-	var DateToday=new Date();
-	var year=	DateToday.getFullYear();
-	var month=	DateToday.getMonth();
-	month++;
-	if(month<10) month="0"+month;
-	var day=	DateToday.getDate();
-	if(day<10) day="0"+day;
-	document.getElementById("errors").innerHTML="Data w naszym serwisie musi być zapisywana w nastepujacy sposób np. "+year+"."+month+"."+day;	
- 	}
-	else
-	{
-		document.forms['UploadImg'].action = 'Upload.php';
-		document.forms['UploadImg'].submit();
-		}
-}
-  
-  </script>
+
 <?php
 if(isset($upload->error_verify))
 {

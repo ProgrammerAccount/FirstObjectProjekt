@@ -63,7 +63,7 @@ if(!isset($_SESSION['zalogowany']))
     else
       {
         $id=$_SESSION['idUser'];
-        $ret=$connect->query("SELECT * FROM user WHERE id='".$id."' AND email='".$_SESSION['email']."' AND name='".$_SESSION['name']."' ");
+        $ret=$connect->query("SELECT * FROM user WHERE id='".$id."' AND email='".$_SESSION['email']."' AND name='".$_SESSION['userName']."' ");
         
         if($ret->num_rows>0)
         {

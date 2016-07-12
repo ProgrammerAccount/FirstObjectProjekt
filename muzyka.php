@@ -29,27 +29,24 @@ function ShowMusic($id)
 		echo '<input type="hidden" name="file_name" value="'.$arrayWithResult['file_name'].'">';
 		echo '<input type="hidden" name="id_user" value="'.$_SESSION['idUser'].'">';
 		echo '<input type="hidden" name="id_file" value="'.$arrayWithResult['id'].'">';
-		echo '<input type="hidden" name="whereIsFileToDelete" value="img">';//img or Music
+		echo '<input type="hidden" name="whereIsFileToDelete" value="Music">';//img or Music
 		echo '<input type="submit"  value="Usuń">';
 		
 		echo "</form>";
 		echo '<div class="info">';
-		echo "<br/>Wykonawca: ".$arrayWithResult['artist'];
-		echo "<br/>Album: ".$arrayWithResult['album'];
-		echo "<br/>Gatunek: ".$arrayWithResult['genre'];
+		if($arrayWithResult['title'])
 		echo "<br/>Tytuł: ".$arrayWithResult['title'];
-		echo '<br/>Link: <a target="_blank" href="'.$arrayWithResult['href'].'">Link do utworu</a>';
+		if($arrayWithResult['description'])
+		echo "<br/>Opis ".$arrayWithResult['description'];
+
+	
+	
 		echo '<audio controls>';
 		echo '<source src="Upload/'.$_SESSION['idUser'].'/muzyka/'.$arrayWithResult['file_name'].'" type="audio/mpeg">';
 		echo '</audio>'; 
 		
 		echo '</div>';
-			if(strstr($arrayWithResult['href'], 'youtube'))
-		{
-		$href=str_replace("watch?v=", 'embed/', $arrayWithResult['href']);
-		echo '<div class="film" ><iframe width="280" height="155"  src="'.$href.'" frameborder="0" allowfullscreen></iframe></div>';
-		}
-				echo '</div>';
+	
 		
 	}
 	$result->free();

@@ -1,12 +1,9 @@
 <?php
 class addMusic 
 {
-public $artist;
-public $album;
 public $id_user;	
-public $genre;
+public $description;
 public $title;
-public $hrefToMusic;
 //metod
 function sanitization($variable)
 {
@@ -18,7 +15,7 @@ function SendAllToDB($file_name)
 {
 	require_once 'ConnectSQL.php';
 	
-	SQLConnect("INSERT INTO Music VALUES(NULL,'".$this->id_user."','".$this->artist."','".$this->album."','".$this->genre."','".$this->title."','".$this->hrefToMusic."','".$file_name."')");
+	SQLConnect("INSERT INTO Music VALUES(NULL,'".$this->id_user."','".$this->title."','".$file_name."','".$this->description."')");
 }
 }
 ?>
