@@ -24,11 +24,12 @@ require("Upload_function.php");
 
  $place=$upload->VerifyText($_POST['place'],30);
  $upload->GetSize($_FILES['file']['tmp_name']);
- $upload->VerifyFile($upload->concent_type,'image');
+ $upload->VerifyFile('image');
+ 
  $upload->ElseName($file_name,$_SESSION['idUser']);
  $path_to_move_file="Upload/".$_SESSION['idUser']."/"."img/".$upload->file_name;
  $upload->MoveFile($tmp_name,$path_to_move_file);
- echo $upload->ValideDate($data);
+ $upload->ValideDate($data);
 
  
 
@@ -82,7 +83,20 @@ SQLConnect($sql_query);
   <input type="text"name="name" placeholder="Nazwa Zdjecia" maxlength="20"><br/>
   <input type="text"name="place" placeholder="Miejsce"  maxlength="30"><br/>
   <input type="data"name="data"   pattern="[0-9]{4}.[0-9]{2}.[0-9]{2}" placeholder="Data yyyy.mm.dd" maxlength="30"><br/>
-<div id="errors"></div>
+<div id="errors">
+<?php
+if(isset($upload->error_verify))
+{
+  echo $upload->error_verify;
+  unset($upload->error_verify);
+}
+if(isset($sizeError))
+{
+	echo $sizeError;
+	unset($sizeError);
+}
+?>
+</div>
 
 
 
@@ -117,7 +131,7 @@ SQLConnect($sql_query);
 <?php
 if(isset($upload->error_verify))
 {
-  echo $upload->error_verify;
+   $upload->error_verify;
   unset($upload);
 }
 

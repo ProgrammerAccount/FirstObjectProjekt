@@ -1,11 +1,11 @@
 <?php
 
 
-class UploadFile
+class UploadFile 
 {
 //atrybuty
-protected  $concent_type;
-protected  $file_type;
+public $concent_type;
+public $file_type;
 public $tmp_file_name;
 public $file_name;
 public $file_size;
@@ -14,6 +14,14 @@ public $error_move_to_folder;
 public $good=true;
 //metody
 
+public function size($sizeInBytes)
+{
+	if(filesize($this->tmp_file_name)>=$sizeInBytes)
+	{
+		$this->good;
+		return "Ten plik za dużo waży!";		
+	}
+}
  public function LoadVariabile($name_array)
  {
    $this->tmp_file_name=$_FILES[$name_array]['tmp_name'];
@@ -24,9 +32,8 @@ public $good=true;
  //---------------
  public function CheckTypeFile($tmp_name)//and size
  {
-    
- 	$this->concent_type=mime_content_type($tmp_name);
-	echo $this->concent_type;
+    $info=new finfo(FILEINFO_MIME);
+ 	$this->concent_type=$info->buffer(file_get_contents($tmp_name));
  	$pathinfo=pathinfo($this->file_name,PATHINFO_EXTENSION);
    $this->file_type=$pathinfo;
    $this->file_size=filesize($tmp_name);
@@ -36,17 +43,16 @@ public $good=true;
  //---------------
  public function VerifyFile($type)
  {
- 
-	
-	
-
+ 	
 $obj= new Strategy();
 $obj->setType($type);
-if($obj->getType()->CheckFile()==false)
+if($obj->getType()->CheckFile($this->file_type,$this->concent_type)==false)
+{
+if($type=="audio")$this->error_verify="Tu możesz dodać tylko pliki mp3!";
+else $this->error_verify="Tu możesz dodać tylko pliki jpg jpeg png gif!";
+		
 $this->good=false;
-
-
-
+}
  }
  //---------------
  public function MoveFile($tmp_path,$path)
@@ -65,16 +71,17 @@ $this->good=false;
 	$this->file_name=md5($name).".".$this->file_type;
 	require_once ("ConnectSQL.php");
 	$return=SQLConnect("SELECT * FROM img WHERE file_name='".$this->file_name."' AND '".$id."'");
-	if($return != false)
-	if($return->num_rows > 0)
-	while($return->num_rows >0)
-	{
-		
-		$i++;
-		$this->file_name=$i.$this->file_name;
-		$return=SQLConnect("SELECT * FROM img WHERE file_name='".$this->file_name."' AND '".$id."'");
-	}
-	$return->free();
+	if ($return != false) {
+            if ($return->num_rows > 0) {
+                while ($return->num_rows > 0) {
+
+                    $i++;
+                    $this->file_name = $i . $this->file_name;
+                    $return = SQLConnect("SELECT * FROM img WHERE file_name='" . $this->file_name . "' AND '" . $id . "'");
+                }
+            }
+        }
+        $return->free();
 	
  }
 
@@ -118,8 +125,7 @@ $this->good=false;
 		 		str_replace('%.%', "-",$date);	
 		 	}
 		}
-		else
-		{
+		else		{
 			$this->good=false;
 			return 'Zle wpisaleś date sprobuj tak np. "2016.05.12"';
 		}
@@ -134,50 +140,63 @@ $this->good=false;
 
 interface file
 {
-	public function CheckFile ();
+	public function CheckFile($type,$mime);
 }
 		
 
-class image extends UploadFile implements file 
+class image implements file 
 {
-	function CheckFile()
+	function CheckFile($type,$mime)
 	{
-	if (($this->file_type!="png")&&($this->file_type!="gif")&&($this->file_type!="jpg")&&($this->file_type!="jpeg"))return false;
-    if(!strstr($this->concent_type,"image"))return false;
+		$good=true;
+		
+            if (($type != "png") && ($type != "gif") && ($type != "jpg") && ($type != "jpeg"))
+            	$good=false;
+                      
+        	if(!strstr($mime, "image"))  
+        		$good=false;
+        	return $good;
+   
 	}
+    
 }
 
-class audio extends UploadFile implements file 
+class audio implements file 
 {	
-	function CheckFile()
+	function CheckFile($type,$mime)
 	{
-echo "fiile_tyle".$this->file_type;
-	if ($this->file_type!="mp3") return false;
-	echo $this->concent_type;
-    if(!strstr($this->concent_type,"audio")) return false;
-    if(GetSize()==false) return false;
+	$good=true;
+	
+	if ($type != "mp3")  
+    	$good=false;
+	
+    if(!strstr($mime, "audio"))
+        $good=false;
+        
+        return $good;
+      
  	}
 }
-class Strategy
+class Strategy 
 {
 private $strategy;
  
     public function setType($type) {
+   
+    	 
         switch ($type) {
             case "audio":
                 $this->strategy = new audio();
                 break;
-            case "image":
+        	 case "image":
                 $this->strategy = new image();
                 break;
-            
+                   
         }
     }
     public function getType() {
         return $this->strategy;
   }
 }	
-
-?>
 
 

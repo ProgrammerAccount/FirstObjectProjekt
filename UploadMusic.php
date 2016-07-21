@@ -16,6 +16,7 @@ require("Upload_function.php");
  $file_name=$_FILES['file']['name'];
  //Wywoływanie klasy Upload
  $upload= new UploadFile;
+ $sizeError=$upload->size(10000000);
  $upload->LoadVariabile('file');
  $upload->CheckTypeFile($tmp_name);
  $upload->VerifyFile('audio');
@@ -23,7 +24,7 @@ require("Upload_function.php");
  $path_to_move_file="Upload/".$_SESSION['idUser']."/"."muzyka/".$upload->file_name;
  $upload->MoveFile($tmp_name,$path_to_move_file);
  $file_name=$upload->file_name;
-
+ echo $upload->good;
 	if($upload->good!=false)
 	{
 	require_once 'addMusic.php';
@@ -71,22 +72,30 @@ require("Upload_function.php");
 
    <input type="text"name="title" placeholder="Tytół" maxlength="30"><br/>
    <input type="text"name="description" placeholder="opis" maxlength="60"><br/>
-<div id="errors"></div>
+
 
 
 
     <input type="submit" value="Wyslij Plik">
-    </div>
- </form>
-
+    <div id="errors">
 <?php
 if(isset($upload->error_verify))
 {
   echo $upload->error_verify;
-  unset($upload);
+  unset($upload->error_verify);
 }
-
+if(isset($sizeError))
+{
+	echo $sizeError;
+	unset($sizeError);
+}
 ?>
+
+</div>
+    </div>
+ </form>
+
+
 
   </main>
   

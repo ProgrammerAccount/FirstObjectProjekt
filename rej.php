@@ -20,9 +20,9 @@ list($_SESSION['error_pass'],$_SESSIONp['error_email'])=$rej->ReturnErrorPass_Em
 if($rej->good==true)
 {
   $_SESSION['zalogowany']=true;
-  $_SESSION['id']=$id;
+  $_SESSION['idUser']=$id;
   $_SESSION['email']=$email;
-  $_SESSION['name']=$name;
+  $_SESSION['userName']=$name;
   header("Location:home.php");
 }
 else {
