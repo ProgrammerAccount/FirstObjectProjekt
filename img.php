@@ -10,20 +10,7 @@ if(!isset($_SESSION['zalogowany']))
 ?>
 <html>
 <head>
-<script>
-</script>
-<style>
-.img:hover
-{
-	background-color:#818181;
-	border-color:9F9F9F;
 
-} 
- .img_size:hover
- {
- opacity:0.6;
- }
-</style>
 
   <!--Style css-->
   <link rel="stylesheet" href="css/style.css" type="text/css">
@@ -83,7 +70,8 @@ if(!isset($_SESSION['zalogowany']))
               echo '<input type="hidden" name="source" value="'.$source.'">';
               echo '<input type="hidden" name="file_name" value="'.$arrayWithResult['file_name'].'">';
               
-              echo '<div class="img"><input alt="Nie znalazłem zdjecia!"  class="img_size" type="image" src="'.$source.'" alt="Submit Form" /> ';
+              echo '<div class="img"><div class="TestName">'.$arrayWithResult['place'].'</div><input  alt="Nie znalazłem zdjecia!"  class="img_size" type="image" src="'.$source.'" alt="Submit Form" /> </div>';
+              
               echo "</form>";
               echo "</div>";
             }

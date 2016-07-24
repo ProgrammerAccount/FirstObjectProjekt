@@ -111,20 +111,55 @@ a:hover .zakladki{
  {
    height: 500px;
    width: 700px;
-
+	position:relative;
    border:10px dashed  #8c8c8c;
    text-align: center;
    margin-top:80px;
+   	z-index:5;
+   
  }
 
  .img_size
  {
-   height: 500px;
-   width: 700px;
-
+    height: 500px;
+    width: 700px;
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:2;
 
 
  }
+ 
+
+.img:hover
+{
+	background-color:#818181;
+	border-color:9F9F9F;
+	z-index:5;
+
+} 
+ .img_size:hover
+ {
+ opacity:0.6;
+ z-index:0;
+ }
+.TestName
+{
+	height: 0px;
+	width: 0px;
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:1;
+	
+
+	
+}
+.TestName:hover
+{
+	z-index:3;
+}
 
  button{
    float:left;
