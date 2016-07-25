@@ -16,6 +16,7 @@ if(!isset($_SESSION['zalogowany']))
   <link rel="stylesheet" href="css/style.css" type="text/css">
   <link rel="stylesheet" href="css/css/fontello.css" type="text/css">
     <!--Fonts-->
+  <link href='https://fonts.googleapis.com/css?family=Lato:700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 <meta charset="utf-8"/>
 <title>HostBook</title>
@@ -70,10 +71,19 @@ if(!isset($_SESSION['zalogowany']))
               echo '<input type="hidden" name="source" value="'.$source.'">';
               echo '<input type="hidden" name="file_name" value="'.$arrayWithResult['file_name'].'">';
               
-              echo '<div class="img"><div class="TestName">'.$arrayWithResult['place'].'</div><input  alt="Nie znalazłem zdjecia!"  class="img_size" type="image" src="'.$source.'" alt="Submit Form" /> </div>';
-              
-              echo "</form>";
-              echo "</div>";
+              echo '<div class="img"><div class="TestName">';
+      			if($arrayWithResult['place']!="")
+      			echo "Miejsce:&nbsp".str_replace(" ","&nbsp",$arrayWithResult['place'])."<br/>";
+        		if($arrayWithResult['comment']!="")
+      			echo "Opis:&nbsp".str_replace(" ","&nbsp",$arrayWithResult['comment'])."<br/>";
+      			if($arrayWithResult['Name']!="")
+      			echo "Miejsce:&nbsp".str_replace(" ","&nbsp",$arrayWithResult['Name'])."<br/>";
+      			if($arrayWithResult['date']!="0000-00-00")
+      			echo "Data:&nbsp".str_replace(" ","&nbsp",$arrayWithResult['date'])."<br/>";
+      			echo"</div>";
+        		echo '<input  alt="Nie znalazłem zdjecia!"  class="img_size" type="image" src="'.$source.'" alt="Submit Form" /> </div>';
+              	echo "</form>";
+              	echo "</div>";
             }
 
         }

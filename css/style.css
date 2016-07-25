@@ -115,7 +115,6 @@ a:hover .zakladki{
    border:10px dashed  #8c8c8c;
    text-align: center;
    margin-top:80px;
-   	z-index:5;
    
  }
 
@@ -136,13 +135,11 @@ a:hover .zakladki{
 {
 	background-color:#818181;
 	border-color:9F9F9F;
-	z-index:5;
 
 } 
  .img_size:hover
  {
- opacity:0.6;
- z-index:0;
+ opacity:0.3;
  }
 .TestName
 {
@@ -151,15 +148,11 @@ a:hover .zakladki{
 	position:absolute;
 	top:0;
 	left:0;
-	z-index:1;
-	
+	font-family: 'Lato', sans-serif;
 
 	
 }
-.TestName:hover
-{
-	z-index:3;
-}
+
 
  button{
    float:left;
