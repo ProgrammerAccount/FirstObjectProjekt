@@ -1,3 +1,5 @@
+
+
 <?php
 class addMusic 
 {
@@ -11,11 +13,11 @@ function sanitization($variable)
 	$variable=filter_var($variable,FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 	return $variable;
 }
-function SendAllToDB($file_name)
+function SendAllToDB($file_name,$where)
 {
 	require_once 'ConnectSQL.php';
 	
-	SQLConnect("INSERT INTO Music VALUES(NULL,'".$this->id_user."','".$this->title."','".$file_name."','".$this->description."')");
+	SQLConnect("INSERT INTO $where VALUES(NULL,'".$this->id_user."','".$this->title."','".$file_name."','".$this->description."')");
 }
 }
 ?>

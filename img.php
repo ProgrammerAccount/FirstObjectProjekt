@@ -32,8 +32,10 @@ if(!isset($_SESSION['zalogowany']))
    </div>
    <div id="menu">
      <a href="muzyka.php"><div class="menu" style="border-left: 2px dotted blue;">Muzyka</div></a>
-     <a href="img.php"><div class="menu">zdjecia</div></a>
-     <a href="img.php"><div class="menu">Filmy</div></a>
+     <a href="filmy.php"><div class="menu">Filmy</div></a>
+
+     <a href="img.php"><div class="menu">Zdjecia</div></a>
+     
      <a href="wyloguj.php"><div class="menu">Wyloguj się</div></a>
   </div>
   <main>
@@ -64,7 +66,7 @@ if(!isset($_SESSION['zalogowany']))
             {
               $arrayWithResult=$result->fetch_assoc();
               echo '<div class="formContainer">';
-              echo '<form action="manager.php" method="POST">';
+              echo '<form action="delete.php" method="POST">';
               echo '<input type="hidden" name="id_img" value="'.$arrayWithResult['id'].'">';
               $source="Upload/".$id."/img"."/".$arrayWithResult['file_name'];
               echo '<input type="hidden" name="opis" value="'.$arrayWithResult['comment'].'">';
@@ -72,16 +74,27 @@ if(!isset($_SESSION['zalogowany']))
               echo '<input type="hidden" name="file_name" value="'.$arrayWithResult['file_name'].'">';
               
               echo '<div class="img"><div class="TestName">';
-      			if($arrayWithResult['place']!="")
+      			if($arrayWithResult['place']!=""){
       			echo "Miejsce:&nbsp".str_replace(" ","&nbsp",$arrayWithResult['place'])."<br/>";
-        		if($arrayWithResult['comment']!="")
-      			echo "Opis:&nbsp".str_replace(" ","&nbsp",$arrayWithResult['comment'])."<br/>";
-      			if($arrayWithResult['Name']!="")
+      			}
+        		if($arrayWithResult['comment']!=""){
+        		echo "Opis:&nbsp".str_replace(" ","&nbsp",$arrayWithResult['comment'])."<br/>";
+        		}
+      			if($arrayWithResult['Name']!=""){
       			echo "Miejsce:&nbsp".str_replace(" ","&nbsp",$arrayWithResult['Name'])."<br/>";
-      			if($arrayWithResult['date']!="0000-00-00")
+      			}
+      			if($arrayWithResult['date']!="0000-00-00"){
       			echo "Data:&nbsp".str_replace(" ","&nbsp",$arrayWithResult['date'])."<br/>";
+      			}
+      			echo '<form action="delete.php" onclick='.'confirm("Czy naperno chcesz usunąć to zdjecie")'.' method="POST">
+        		<button type="submit">
+          		<i style="font-size:48px;" class="demo-icon icon-trash-empty" > </i>
+        		</button>';
+      			echo '<input type="hidden" name="id_file" value="'.$arrayWithResult['id'].' ?>">';
+      			echo '<input type="hidden" name="file_name" value="'.$arrayWithResult['file_name'].'?>">';
+      			echo '<input type="hidden" name="whereIsFileToDelete" value="img"></form>';
       			echo"</div>";
-        		echo '<input  alt="Nie znalazłem zdjecia!"  class="img_size" type="image" src="'.$source.'" alt="Submit Form" /> </div>';
+        		echo '<img class="img_size"  src="'.$source.'" />  </div>';
               	echo "</form>";
               	echo "</div>";
             }

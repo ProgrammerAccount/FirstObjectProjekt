@@ -49,7 +49,8 @@ $obj->setType($type);
 if($obj->getType()->CheckFile($this->file_type,$this->concent_type)==false)
 {
 if($type=="audio")$this->error_verify="Tu możesz dodać tylko pliki mp3!";
-else $this->error_verify="Tu możesz dodać tylko pliki jpg jpeg png gif!";
+else if(type=="image")$this->error_verify="Tu możesz dodać tylko pliki jpg jpeg png gif!";
+else $this->error_verify="To nie jest plik wideo";
 		
 $this->good=false;
 }
@@ -65,23 +66,27 @@ $this->good=false;
  	}
  }
  //---------------
- public function ElseName($name,$id)
+ public function ElseNameNIW($name,$id,$where)
  {
  	$i=0;
 	$this->file_name=md5($name).".".$this->file_type;
 	require_once ("ConnectSQL.php");
-	$return=SQLConnect("SELECT * FROM img WHERE file_name='".$this->file_name."' AND '".$id."'");
-	if ($return != false) {
-            if ($return->num_rows > 0) {
-                while ($return->num_rows > 0) {
+	$return=SQLConnect("SELECT * FROM $where WHERE file_name='".$this->file_name."' AND '".$id."'");
+	if ($return != false) 
+	{
+            if ($return->num_rows > 0) 
+            {
+                while ($return->num_rows > 0) 
+                {
 
                     $i++;
                     $this->file_name = $i . $this->file_name;
                     $return = SQLConnect("SELECT * FROM img WHERE file_name='" . $this->file_name . "' AND '" . $id . "'");
                 }
             }
+            $return->free();
+            
         }
-        $return->free();
 	
  }
 
@@ -160,6 +165,19 @@ class image implements file
 	}
     
 }
+class film implements file
+{
+	function CheckFile($type, $mime)
+	{
+		$good=true;
+		if ($type!="mp4")
+			$good=false;
+		if(!strstr($mime, "video"))
+			$good=false;
+			return $good;
+			
+	}
+}
 
 class audio implements file 
 {	
@@ -191,7 +209,10 @@ private $strategy;
         	 case "image":
                 $this->strategy = new image();
                 break;
-                   
+             case "video":
+               	$this->strategy = new film();
+               	break;
+                	 
         }
     }
     public function getType() {

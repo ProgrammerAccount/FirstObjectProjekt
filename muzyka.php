@@ -98,7 +98,8 @@ border-top: 20px solid gray;
    </div>
    <div id="menu">
      <a href="muzyka.php"><div class="menu" style="border-left: 2px dotted blue;">Muzyka</div></a>
-     <a href="img.php"><div class="menu">Filmy</div></a>
+     <a href="filmy.php"><div class="menu">Filmy</div></a>
+
      <a href="img.php"><div class="menu">Zdjecia</div></a>
      <a href="wyloguj.php"><div class="menu">Wyloguj się</div></a>
   </div>

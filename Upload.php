@@ -4,9 +4,12 @@ if((!isset($_SESSION['zalogowany']))&&(!isset($_SESSION['idUser'])))
 {
   header("Location: index.php");     exit;
 }
+require_once('ConnectSQL.php');
 
-
-
+$result=SQLConnect("SELECT * FROM user WHERE id='".$_SESSION['idUser']."' AND name='".$_SESSION['userName']."'");
+$arrayWitchResult=$result->fetch_assoc();
+$howManyImage=$arrayWitchResult['howManyImage'];
+$result->free();
 if((isset($_FILES['file']))&&($_FILES['file']['tmp_name']))
 {
 require("Upload_function.php");
@@ -21,17 +24,15 @@ require("Upload_function.php");
  $comment=$upload->VerifyText($_POST['comment'],50);
  $name=$upload->VerifyText($_POST['name'],20);
  $data=$_POST['data'];
-
  $place=$upload->VerifyText($_POST['place'],30);
  $upload->GetSize($_FILES['file']['tmp_name']);
  $upload->VerifyFile('image');
- 
- $upload->ElseName($file_name,$_SESSION['idUser']);
+ $upload->ElseNameNIW($file_name,$_SESSION['idUser'],"img");
  $path_to_move_file="Upload/".$_SESSION['idUser']."/"."img/".$upload->file_name;
  $upload->MoveFile($tmp_name,$path_to_move_file);
  $upload->ValideDate($data);
 
- 
+ if($howManyImage>=100) $upload->good=false;
 
 
    if($upload->good==true)
@@ -41,7 +42,11 @@ require("Upload_function.php");
 $sql_query="INSERT INTO img VALUES(NULL,'".$_SESSION['idUser']."','".$upload->file_name."','".DATE($data)."','".$place."','".$comment."','".$name."')";
 require_once('ConnectSQL.php');
 SQLConnect($sql_query);
-  }
+$howManyImage++;
+SQLConnect("UPDATE user SET howManyImage='".$howManyImage."' WHERE id='".$_SESSION['idUser']."' AND name='".$_SESSION['userName']."'");
+
+ }
+  
  }
  
 

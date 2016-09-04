@@ -13,7 +13,7 @@ if((isset($_POST['login']))&&(isset($_POST['pass'])))
 require('LoginFunction.php');
 $login= new Login;
 
-$login->RecaptchaVerify($_POST['g-recaptcha-response'],'6LcT2B0TAAAAAKj9Wgab_UfuF-sWJcKqtUeYMfmo');
+$login->RecaptchaVerify($_POST['g-recaptcha-response'],'6Ld6fygTAAAAAOE45YJjt5HOHiyjofoy46Qe8U0S');
 list($_SESSION['idUser'],$_SESSION['userName'],$_SESSION['zalogowany'],$_SESSION['email'])=
 $login->LoginPassVerifyConnect($_POST['login'],$_POST['pass']);
 list($_SESSION['captcha'],$_SESSION['login'])=$login->ShowError();
@@ -37,7 +37,7 @@ list($_SESSION['captcha'],$_SESSION['login'])=$login->ShowError();
 			<!--Logowanie-->
 		<input type="email" 	name="login" 	placeholder="E-mail"/>
 		<input type="password" 	name="pass" 	placeholder="Hasło"/>
-		  <div style=" margin-left:85px"><div class="g-recaptcha" data-sitekey="6LcT2B0TAAAAAMZGMEWRRSSldJFFNSWvVAzXNYwy"></div></div>
+		  <div style=" margin-left:85px"><div class="g-recaptcha" data-sitekey="6Ld6fygTAAAAACQXe_vFFu2rdCYq--oqUQYKHthf"></div></div>
 		
 		<input type="submit"   value="Zaloguj się"/>
 
