@@ -15,7 +15,7 @@ $login= new Login;
 
 $login->RecaptchaVerify($_POST['g-recaptcha-response'],'6Ld6fygTAAAAAOE45YJjt5HOHiyjofoy46Qe8U0S');
 list($_SESSION['idUser'],$_SESSION['userName'],$_SESSION['zalogowany'],$_SESSION['email'])=
-$login->LoginPassVerifyConnect($_POST['login'],$_POST['pass']);
+$login->LoginPassVerifyAndConnect($_POST['login'],$_POST['pass']);
 list($_SESSION['captcha'],$_SESSION['login'])=$login->ShowError();
 }
 ?>

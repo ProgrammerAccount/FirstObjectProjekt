@@ -68,7 +68,7 @@
 			$this->name=$connect->real_escape_string($this->name);
 			$this->name=htmlentities($this->name);
 
-			if($result=$connect->query("INSERT INTO user VALUES(NULL,'".$this->email."','".password_hash($this->password,PASSWORD_DEFAULT)."','".$this->name."') "))
+			if($result=$connect->query("INSERT INTO user VALUES(NULL,'".$this->email."','".password_hash($this->password,PASSWORD_DEFAULT)."','".$this->name."','0','0','0',false)"))
 			{
         $rezultat=$connect->query("SELECT * FROM user WHERE email='".$this->email."'");
         $array=$rezultat->fetch_assoc();

@@ -28,7 +28,7 @@ public  $error_login="";
       }
 
   }
-  function LoginPassVerifyConnect($email,$password)
+  function LoginPassVerifyAndConnect($email,$password)
   {
   	if($this->error_captcha=="")
   	{

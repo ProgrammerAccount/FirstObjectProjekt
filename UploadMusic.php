@@ -20,11 +20,10 @@ require("Upload_function.php");
  $upload->LoadVariabile('file');
  $upload->CheckTypeFile($tmp_name);
  $upload->VerifyFile('audio');
- $upload->ElseName($file_name,$_SESSION['idUser']);
+ $upload->ElseNameNIW($file_name,$_SESSION['idUser'],"Music");
  $path_to_move_file="Upload/".$_SESSION['idUser']."/"."muzyka/".$upload->file_name;
  $upload->MoveFile($tmp_name,$path_to_move_file);
  $file_name=$upload->file_name;
- echo $upload->good;
 	if($upload->good!=false)
 	{
 	require_once 'addMusic.php';
@@ -32,7 +31,7 @@ require("Upload_function.php");
   	$musicUpload->id_user=$_SESSION['idUser'];
 	$musicUpload->title=$musicUpload->sanitization($_POST['title']);
 	$musicUpload->description=$musicUpload->sanitization($_POST['description']);
-	$musicUpload->SendAllToDB($file_name);
+	$musicUpload->SendAllToDB($file_name,"Music");
 	}
 }
 ?>
@@ -66,7 +65,7 @@ require("Upload_function.php");
   </div>
   <main>
     <div id="containerForinput">
-<form  method="post" name="UploadImg" enctype="multipart/form-data"  > 
+<form  method="post" name="Uploadflm" enctype="multipart/form-data"  > 
   <input type="file" value="Poszukaj pliku" name="file" accept="audio/*">
   <br/>
 

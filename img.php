@@ -58,11 +58,11 @@ if(!isset($_SESSION['zalogowany']))
         if($ret->num_rows>0)
         {
         $result=$connect->query("SELECT * FROM img WHERE id_user='".$id."' ORDER BY id DESC ");
-        $ile=$result->num_rows;
-        if($ile>0)
+        $ile_filmow=$result->num_rows;
+        if($ile_filmow>0)
         {
 
-            while ($ile--)
+            while ($ile_filmow--)
             {
               $arrayWithResult=$result->fetch_assoc();
               echo '<div class="formContainer">';
