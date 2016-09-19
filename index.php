@@ -17,6 +17,10 @@ $login->RecaptchaVerify($_POST['g-recaptcha-response'],'6Ld6fygTAAAAAOE45YJjt5HO
 list($_SESSION['idUser'],$_SESSION['userName'],$_SESSION['zalogowany'],$_SESSION['email'])=
 $login->LoginPassVerifyAndConnect($_POST['login'],$_POST['pass']);
 list($_SESSION['captcha'],$_SESSION['login'])=$login->ShowError();
+$time = microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"];
+
+echo "Did nothing in $time seconds\n";
+exit;
 }
 ?>
 
@@ -32,7 +36,7 @@ list($_SESSION['captcha'],$_SESSION['login'])=$login->ShowError();
 <body>
 
 <main>
-	<form autocomplete="off" method="POST">
+	<form autocomplete="on" method="POST">
 	<div id="logowanie">
 			<!--Logowanie-->
 		<input type="email" 	name="login" 	placeholder="E-mail"/>

@@ -1,7 +1,7 @@
 <?php
 
-
-class UploadFile 
+require 'LoginFunction.php';
+class UploadFile extends Login
 {
 //atrybuty
 public $concent_type;
@@ -12,7 +12,9 @@ public $file_size;
 public $error_verify;
 public $error_move_to_folder;
 public $good=true;
+public $connect_to_DB;
 //metody
+
 
 public function size($sizeInBytes)
 {
@@ -71,7 +73,7 @@ $this->good=false;
  	$i=0;
 	$this->file_name=md5($name).".".$this->file_type;
 	require_once ("ConnectSQL.php");
-	$return=SQLConnect("SELECT * FROM $where WHERE file_name='".$this->file_name."' AND '".$id."'");
+	$return=$this->connect_to_DB->query("SELECT * FROM $where WHERE file_name='".$this->file_name."' AND '".$id."'");
 	if ($return != false) 
 	{
             if ($return->num_rows > 0) 
@@ -81,7 +83,7 @@ $this->good=false;
 
                     $i++;
                     $this->file_name = $i . $this->file_name;
-                    $return = SQLConnect("SELECT * FROM img WHERE file_name='" . $this->file_name . "' AND '" . $id . "'");
+                    $return = $this->connect_to_DB->query("SELECT * FROM img WHERE file_name='" . $this->file_name . "' AND '" . $id . "'");
                 }
             }
             $return->free();

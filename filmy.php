@@ -30,6 +30,11 @@ else $idFile=($_POST['nr_id']-1)*5;
   margin-top:50px;
 
 }
+.numer_list
+{
+display:inline;
+
+}
 </style>
 </head>
 <body>
@@ -56,24 +61,26 @@ else $idFile=($_POST['nr_id']-1)*5;
     $id=$_SESSION['idUser'];
     
    require 'showfiles.php';
-    $showfilms= new audio();
-  	$showfilms->ConnectToDB();
+    $showfilms= new film();
+  	//$showfilms->ConnectToDB();
     $showfilms->HowMutchFiles("SELECT * FROM film WHERE id_user='".$id."' ORDER BY id DESC");
     $showfilms->TakeResult();
     for($i=$idFile;$showfilms->how_mutch_films>$i;$i++)
     {
-    	echo $i.'<br/>';
     $showfilms->ShowFiles($i, $id);
     if($i%5==4) break;
 
     }
+    echo '<div class="numer_list">';
     $id_button=$showfilms->how_mutch_films/5;
     if($id_button%5>0)$id_button=$id_button+1;
  	for ($i=1;$id_button>=$i;$i++)
  	{
  		echo '<form method="POST"><input type="submit" name="nr_id" value="'.$i.'"></form><br/>';
  	}
+ 	
       ?>
+      </div>
   </main>
 </body>
 </html>

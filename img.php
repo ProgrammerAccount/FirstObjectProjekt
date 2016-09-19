@@ -54,14 +54,12 @@ if(!isset($_SESSION['zalogowany']))
       {
         $id=$_SESSION['idUser'];
         $ret=$connect->query("SELECT * FROM user WHERE id='".$id."' AND email='".$_SESSION['email']."' AND name='".$_SESSION['userName']."' ");
-        
-        if($ret->num_rows>0)
-        {
+       
+    
         $result=$connect->query("SELECT * FROM img WHERE id_user='".$id."' ORDER BY id DESC ");
-        $ile_filmow=$result->num_rows;
+   		$ile_filmow=$result->num_rows;
         if($ile_filmow>0)
         {
-
             while ($ile_filmow--)
             {
               $arrayWithResult=$result->fetch_assoc();
@@ -103,7 +101,7 @@ if(!isset($_SESSION['zalogowany']))
         $result->free();
         $ret->free();
       }
-      }
+      
       ?>
   </main>
 </body>

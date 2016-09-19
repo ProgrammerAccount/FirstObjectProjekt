@@ -4,9 +4,15 @@ if((!isset($_SESSION['zalogowany']))&&(!isset($_SESSION['idUser'])))
 {
   header("Location: index.php");     exit;
 }
-require_once('ConnectSQL.php');
+require("connect.php");
+$connect_to_DB=new mysqli($host,$user,$pass,$base);
+if($connect_to_DB->connect_error)
+{
+	echo "Error:".$connect_to_DB->connect_errno; exit;
+}
+else 
 
-$result=SQLConnect("SELECT * FROM user WHERE id='".$_SESSION['idUser']."' AND name='".$_SESSION['userName']."'");
+$result=$connect_to_DB->query("SELECT * FROM user WHERE id='".$_SESSION['idUser']."' AND name='".$_SESSION['userName']."'");
 $arrayWitchResult=$result->fetch_assoc();
 $howManyImage=$arrayWitchResult['howManyImage'];
 $result->free();
@@ -40,10 +46,9 @@ require("Upload_function.php");
 
 
 $sql_query="INSERT INTO img VALUES(NULL,'".$_SESSION['idUser']."','".$upload->file_name."','".DATE($data)."','".$place."','".$comment."','".$name."')";
-require_once('ConnectSQL.php');
-SQLConnect($sql_query);
+$connect_to_DB->query($sql_query);
 $howManyImage++;
-SQLConnect("UPDATE user SET howManyImage='".$howManyImage."' WHERE id='".$_SESSION['idUser']."' AND name='".$_SESSION['userName']."'");
+$connect_to_DB->query("UPDATE user SET howManyImage='".$howManyImage."' WHERE id='".$_SESSION['idUser']."' AND name='".$_SESSION['userName']."'");
 
  }
   

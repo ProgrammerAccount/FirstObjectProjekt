@@ -7,53 +7,6 @@ if(!isset($_SESSION['zalogowany']))
     exit;
 }
 
-function ShowMusic($id)
-{
-	require_once 'connect.php';
-	$connect= new mysqli($host,$user,$pass,$base);
-	if($connect->connect_error)
-	{
-		echo "ERROR:".$connect->connect_errno;
-	}
-	else 
-	{
-	$result=$connect->query("SELECT * FROM Music WHERE id_user='".$_SESSION['idUser']."' ORDER BY id DESC ");
-	$connect->close();
-	$how_mutch=$result->num_rows;
-	for($i=0;$i<$how_mutch;$i++)
-	{
-		$arrayWithResult=$result->fetch_assoc();
-		
-		echo '<div class="music">';
-		echo '<form action="delete.php" method="POST">';
-		echo '<input type="hidden" name="file_name" value="'.$arrayWithResult['file_name'].'">';
-		echo '<input type="hidden" name="id_user" value="'.$_SESSION['idUser'].'">';
-		echo '<input type="hidden" name="id_file" value="'.$arrayWithResult['id'].'">';
-		echo '<input type="hidden" name="whereIsFileToDelete" value="Music">';//img or Music
-		echo '<input type="submit"  value="Usuń">';
-		
-		echo "</form>";
-		echo '<div class="info">';
-		if($arrayWithResult['title'])
-		echo "<br/>Tytuł: ".$arrayWithResult['title'];
-		if($arrayWithResult['description'])
-		echo "<br/>Opis ".$arrayWithResult['description'];
-
-	
-	
-		echo '<audio controls>';
-		echo '<source src="Upload/'.$_SESSION['idUser'].'/muzyka/'.$arrayWithResult['file_name'].'" type="audio/mpeg">';
-		echo '</audio>'; 
-		
-		echo '</div>';
-	
-		
-	}
-	$result->free();
-	}
-
-
-}
 ?>
 <html>
 <head>
@@ -105,9 +58,20 @@ border-top: 20px solid gray;
   </div>
     <main>
 		<h4 style="text-align:center;"><a href="UploadMusic.php">Dodaj muzyke</a></h4>
-		<?php 
-		ShowMusic($_SESSION['idUser']);
-		?>
+	    <?php
+    $id=$_SESSION['idUser'];
+    
+   require 'showfiles.php';
+    $showfilms= new audio();
+  	$showfilms->HowMutchFiles("SELECT * FROM Music WHERE id_user='".$id."' ORDER BY id DESC");
+    $showfilms->TakeResult();
+    for($i=0;$showfilms->how_mutch_films>$i;$i++)
+    {
+    $showfilms->ShowFiles($i, $id);
+
+    }
+    
+      ?>
 		<div style="clear: both;"></div>
 		
   	</main>

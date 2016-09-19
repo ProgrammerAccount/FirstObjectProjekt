@@ -1,5 +1,5 @@
 <?php
- class Rejstracja
+ class Rejstracja extends Login
  {
 	 //wlasciwosci
 	public $email;
@@ -83,8 +83,8 @@
 	}
   	function CreateDir($id)
 	  {
-	     if($this->good==true)
-	     {
+	    if($this->good==true)
+	    {
 	    mkdir("Upload/".$id,0777);
 	    mkdir("Upload/".$id."/img",0777);
 	    mkdir("Upload/".$id."/muzyka",0777);
