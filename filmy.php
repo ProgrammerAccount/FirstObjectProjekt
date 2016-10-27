@@ -70,16 +70,17 @@ else $idFile = ($_POST ['nr_id'] - 1) * 5;
 					$showfilms->ShowFiles( $i,$id);
 					if($i % 5 == 4) break;
 				}
+				echo '<div style="height:10px; padding-bottom:100px;">';
 				echo '<div class="numer_list">';
 				$id_button = $how_mutch_films / 5;
 				if($id_button % 5 > 0) $id_button = $id_button + 1;
 				for($i = 1;$id_button >= $i;$i++)
 				{
-					echo '<form method="POST"><input type="submit" name="nr_id" value="' . $i . '"></form><br/>';
+					echo '<div style="float:left;width:50px;"> <form method="POST"><input type="submit" name="nr_id" value="' . $i . '"></form> </div>';
 				}
-				
+				echo "</div>";
 				?>
-      </div>
+  
 	</main>
 </body>
 </html>

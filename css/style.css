@@ -1,3 +1,12 @@
+#s
+{
+	    position: fixed;
+    left: 0px;
+    top: 0px;
+	height:50px;
+	z-index:100;
+	
+}
 body
 {
   background-color:#DCDCDC; /*Roboczo*/
@@ -9,7 +18,15 @@ main
 {
 
 }
+.numer_list
+{
+	padding-bottom:50px;
+float:left;
+height:30px;
+margin-left:auto;
+margin-right:auto;
 
+}
 #header{
 width: 100%;
 background-color: #8A8A8A;

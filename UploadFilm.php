@@ -60,9 +60,9 @@ if((isset( $_FILES ['file'])) && ($_FILES ['file'] ['tmp_name']))
 	<div id="menu">
 		<a href="muzyka.php"><div class="menu"
 				style="border-left: 2px dotted blue;">Muzyka</div></a> <a
-			href="img.php"><div class="menu">zdjecia</div></a> <a href="img.php"><div
-				class="menu">Filmy</div></a> <a href="wyloguj.php"><div class="menu">Wyloguj
-				się</div></a>
+			href="filmy.php"><div class="menu">Filmy</div></a> <a href="img.php"><div
+				class="menu">Zdjecia</div></a> <a href="wyloguj.php"><div
+				class="menu">Wyloguj się</div></a>
 	</div>
 	<main>
 	<div id="containerForinput">

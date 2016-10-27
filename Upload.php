@@ -1,119 +1,120 @@
 <?php
 session_start();
-if((!isset($_SESSION['zalogowany']))&&(!isset($_SESSION['idUser'])))
+if((! isset( $_SESSION ['zalogowany'])) && (! isset( $_SESSION ['idUser'])))
 {
-  header("Location: index.php");     exit;
+	header( "Location: index.php");
+	exit();
 }
-require("connect.php");
-$connect_to_DB=new mysqli($host,$user,$pass,$base);
+require ("connect.php");
+$connect_to_DB = new mysqli( $host,$user,$pass,$base);
 if($connect_to_DB->connect_error)
 {
-	echo "Error:".$connect_to_DB->connect_errno; exit;
+	echo "Error:" . $connect_to_DB->connect_errno;
+	exit();
 }
-else 
-
-$result=$connect_to_DB->query("SELECT * FROM user WHERE id='".$_SESSION['idUser']."' AND name='".$_SESSION['userName']."'");
-$arrayWitchResult=$result->fetch_assoc();
-$howManyImage=$arrayWitchResult['howManyImage'];
+else
+	
+	$result = $connect_to_DB->query( "SELECT * FROM user WHERE id='" . $_SESSION ['idUser'] . "' AND name='" . $_SESSION ['userName'] . "'");
+$arrayWitchResult = $result->fetch_assoc();
+$howManyImage = $arrayWitchResult ['howManyImage'];
 $result->free();
-if((isset($_FILES['file']))&&($_FILES['file']['tmp_name']))
+if((isset( $_FILES ['file'])) && ($_FILES ['file'] ['tmp_name']))
 {
-require("Upload_function.php");
-
-
- $tmp_name=$_FILES['file']['tmp_name'];
- $file_name=$_FILES['file']['name'];
- //Wywoływanie klasy Upload
- $upload= new UploadFile;
- $upload->LoadVariabile('file');
- $upload->CheckTypeFile($tmp_name);
- $comment=$upload->VerifyText($_POST['comment'],50);
- $name=$upload->VerifyText($_POST['name'],20);
- $data=$_POST['data'];
- $place=$upload->VerifyText($_POST['place'],30);
- $upload->GetSize($_FILES['file']['tmp_name']);
- $upload->VerifyFile('image');
- $upload->ElseNameNIW($file_name,$_SESSION['idUser'],"img");
- $path_to_move_file="Upload/".$_SESSION['idUser']."/"."img/".$upload->file_name;
- $upload->MoveFile($tmp_name,$path_to_move_file);
- $upload->ValideDate($data);
-
- if($howManyImage>=100) $upload->good=false;
-
-
-   if($upload->good==true)
- {
-
-
-$sql_query="INSERT INTO img VALUES(NULL,'".$_SESSION['idUser']."','".$upload->file_name."','".DATE($data)."','".$place."','".$comment."','".$name."')";
-$connect_to_DB->query($sql_query);
-$howManyImage++;
-$connect_to_DB->query("UPDATE user SET howManyImage='".$howManyImage."' WHERE id='".$_SESSION['idUser']."' AND name='".$_SESSION['userName']."'");
-
- }
-  
- }
- 
+	require ("Upload_function.php");
+	
+	$tmp_name = $_FILES ['file'] ['tmp_name'];
+	$file_name = $_FILES ['file'] ['name'];
+	// Wywoływanie klasy Upload
+	$upload = new UploadFile();
+	$upload->LoadVariabile( 'file');
+	$upload->CheckTypeFile( $tmp_name);
+	$comment = $upload->VerifyText( $_POST ['comment'],50);
+	$name = $upload->VerifyText( $_POST ['name'],20);
+	$data = $_POST ['data'];
+	$place = $upload->VerifyText( $_POST ['place'],30);
+	$upload->GetSize( $_FILES ['file'] ['tmp_name']);
+	$upload->VerifyFile( 'image');
+	$upload->ElseNameNIW( $file_name,$_SESSION ['idUser'],"img");
+	$path_to_move_file = "Upload/" . $_SESSION ['idUser'] . "/" . "img/" . $upload->file_name;
+	$upload->MoveFile( $tmp_name,$path_to_move_file);
+	$upload->ValideDate( $data);
+	
+	if($howManyImage >= 100) $upload->good = false;
+	
+	if($upload->good == true)
+	{
+		
+		$sql_query = "INSERT INTO img VALUES(NULL,'" . $_SESSION ['idUser'] . "','" . $upload->file_name . "','" . DATE( $data) . "','" . $place . "','" . $comment . "','" . $name . "')";
+		$connect_to_DB->query( $sql_query);
+		$howManyImage++;
+		$connect_to_DB->query( "UPDATE user SET howManyImage='" . $howManyImage . "' WHERE id='" . $_SESSION ['idUser'] . "' AND name='" . $_SESSION ['userName'] . "'");
+	}
+}
 
 ?>
 <html>
 <head>
-  <!--Style css-->
+<!--Style css-->
 
-  <link rel="stylesheet" href="css/style.css" type="text/css">
-  <link rel="stylesheet" href="css/css/fontello.css" type="text/css">
-  <link rel="stylesheet" href="css/UploadInput.css" type="text/css">
- 
+<link rel="stylesheet" href="css/style.css" type="text/css">
+<link rel="stylesheet" href="css/css/fontello.css" type="text/css">
+<link rel="stylesheet" href="css/UploadInput.css" type="text/css">
 
-    <!--Fonts-->
-    <link href='https://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-<meta charset="utf-8"/>
+
+<!--Fonts-->
+<link
+	href='https://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext'
+	rel='stylesheet' type='text/css'>
+<meta charset="utf-8" />
 <title>HostBook</title>
 </head>
 <body>
 
-    <div id="header">
+	<div id="header">
      Witaj w swoim konciku
        <?php echo $_SESSION['userName']; ?>
 
 
    </div>
-   <div id="menu">
-     <a href="muzyka.php"><div class="menu" style="border-left: 2px dotted blue;">Muzyka</div></a>
-     <a href="img.php"><div class="menu">zdjecia</div></a>
-     <a href="img.php"><div class="menu">Filmy</div></a>
-     <a href="wyloguj.php"><div class="menu">Wyloguj się</div></a>
-  </div>
-  <main>
-    <div id="containerForinput">
-<form  method="post" name="UploadImg" enctype="multipart/form-data"  > 
-  <input type="file" value="Poszukaj pliku" name="file" accept="image/*">
-  <br/>
-  <input type="text"name="comment" placeholder="komentarz "  maxlength="50"><br/>
-  <input type="text"name="name" placeholder="Nazwa Zdjecia" maxlength="20"><br/>
-  <input type="text"name="place" placeholder="Miejsce"  maxlength="30"><br/>
-  <input type="data"name="data"   pattern="[0-9]{4}.[0-9]{2}.[0-9]{2}" placeholder="Data yyyy.mm.dd" maxlength="30"><br/>
-<div id="errors">
+	<div id="menu">
+		<a href="muzyka.php"><div class="menu"
+				style="border-left: 2px dotted blue;">Muzyka</div></a><a
+			href="filmy.php"><div class="menu">Filmy</div></a> <a href="img.php"><div
+				class="menu">Zdjecia</div></a> <a href="wyloguj.php"><div
+				class="menu">Wyloguj się</div></a>
+	</div>
+	<main>
+	<div id="containerForinput">
+		<form method="post" name="UploadImg" enctype="multipart/form-data">
+			<input type="file" value="Poszukaj pliku" name="file"
+				accept="image/*"> <br /> <input type="text" name="comment"
+				placeholder="komentarz " maxlength="50"><br /> <input type="text"
+				name="name" placeholder="Nazwa Zdjecia" maxlength="20"><br /> <input
+				type="text" name="place" placeholder="Miejsce" maxlength="30"><br />
+			<input type="data" name="data" pattern="[0-9]{4}.[0-9]{2}.[0-9]{2}"
+				placeholder="Data yyyy.mm.dd" maxlength="30"><br />
+			<div id="errors">
 <?php
-if(isset($upload->error_verify))
+if(isset( $upload->error_verify))
 {
-  echo $upload->error_verify;
-  unset($upload->error_verify);
+	echo $upload->error_verify;
+	unset( $upload->error_verify);
 }
-if(isset($sizeError))
+if(isset( $sizeError))
 {
 	echo $sizeError;
-	unset($sizeError);
+	unset( $sizeError);
 }
 ?>
 </div>
 
 
 
-    <input type="submit" value="Wyslij Plik">
-    </div>
- </form>
- <script>
+			<input type="submit" value="Wyslij Plik">
+	
+	</div>
+	</form>
+	<script>
   function CheckDate()
   {
 	var date=document.getElementsByName('data').value;
@@ -139,15 +140,15 @@ if(isset($sizeError))
   
   </script>
 <?php
-if(isset($upload->error_verify))
+if(isset( $upload->error_verify))
 {
-   $upload->error_verify;
-  unset($upload);
+	$upload->error_verify;
+	unset( $upload);
 }
 
 ?>
 
   </main>
-  
+
 </body>
 </html>
