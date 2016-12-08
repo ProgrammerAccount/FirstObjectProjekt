@@ -12,6 +12,14 @@ public $error_verify;
 public $error_move_to_folder;
 public $good = true;
 // metody
+public function __construct()
+{
+	parent::__construct();
+}
+public function __destruct()
+{
+	parent::__destruct();
+}
 public function size($sizeInBytes)
 {
 	if(filesize( $this->tmp_file_name) >= $sizeInBytes)
@@ -36,7 +44,7 @@ public function CheckTypeFile($tmp_name) // and size
 	$this->file_size = filesize( $tmp_name);
 }
 // ---------------
-public function VerifyFile($type)
+public function VerifyTypeFile($type)
 {
 	$obj = new Strategy();
 	$obj->setType( $type);
@@ -57,28 +65,28 @@ public function MoveFile($tmp_path, $path)
 	}
 }
 // ---------------
-public function ElseNameNIW($name, $id, $where)
+public function ElseNameNIW($name, $where)
 {
 	$i = 0;
 	$this->file_name = md5( $name) . "." . $this->file_type;
-	require_once ("ConnectSQL.php");
-	$return = $this->connect_to_DB->query( "SELECT * FROM $where WHERE file_name='" . $this->file_name . "' AND '" . $id . "'");
+	require_once ("connect.php");
+	$return = $this->connect_to_DB->query( "SELECT * FROM $where WHERE file_name='" . $this->file_name . "'");
+	
 	if($return != false)
 	{
 		if($return->num_rows > 0)
 		{
-			while($return->num_rows > 0)
+			while(@$return->num_rows > 0)
 			{
 				
 				$i++;
 				$this->file_name = $i . $this->file_name;
-				$return = $this->connect_to_DB->query( "SELECT * FROM img WHERE file_name='" . $this->file_name . "' AND '" . $id . "'");
+				$return = $this->connect_to_DB->query( "SELECT * FROM $where WHERE file_name='" . $this->file_name . "'");
 			}
 		}
-		$return->free();
 	}
 }
-public function VerifyText($text_to_verify, $how_much_characters)
+public function SanitizationText($text_to_verify, $how_much_characters)
 {
 	$save_text = htmlentities( $text_to_verify);
 	

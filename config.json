@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "fontello",
   "css_prefix_text": "icon-",
   "css_use_suffix": false,
   "hinting": true,
@@ -7,34 +7,46 @@
   "ascent": 850,
   "glyphs": [
     {
-      "uid": "d35a1d35efeb784d1dc9ac18b9b6c2b6",
-      "css": "pencil",
+      "uid": "31972e4e9d080eaa796290349ae6c1fd",
+      "css": "users",
       "code": 59392,
       "src": "fontawesome"
     },
     {
-      "uid": "f48ae54adfb27d8ada53d0fd9e34ee10",
-      "css": "trash-empty",
+      "uid": "221947bea81f49a11b863c686a7bd235",
+      "css": "search-1",
+      "code": 59394,
+      "src": "websymbols"
+    },
+    {
+      "uid": "fd3128bf109153952b1b775ea574504b",
+      "css": "user",
       "code": 59393,
-      "src": "fontawesome"
+      "src": "websymbols"
+    },
+    {
+      "uid": "2c5335c6e56b876139d7a58ab2f4b2fe",
+      "css": "bell",
+      "code": 59395,
+      "src": "entypo"
     },
     {
       "uid": "39e2e6682c28e1e3b5f49825a19717c4",
       "css": "note",
-      "code": 59394,
-      "src": "entypo"
-    },
-    {
-      "uid": "6341ebcbe1ed1f6777c1b9527ead368e",
-      "css": "video",
-      "code": 59395,
+      "code": 59396,
       "src": "entypo"
     },
     {
       "uid": "381da2c2f7fd51f8de877c044d7f439d",
       "css": "picture",
-      "code": 59396,
+      "code": 59397,
       "src": "fontawesome"
+    },
+    {
+      "uid": "6341ebcbe1ed1f6777c1b9527ead368e",
+      "css": "video",
+      "code": 59398,
+      "src": "entypo"
     }
   ]
 }

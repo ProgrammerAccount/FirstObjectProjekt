@@ -1,8 +1,7 @@
 <?php
-$host="localhost";
-$user="root";
-$base="Host";
-$pass="";
+$host = "localhost";
+$user = "root";
+$base = "Host";
+$pass = "";
 
-
- ?>
+?>

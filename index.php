@@ -69,8 +69,16 @@ if((isset( $_POST ['login'])) && (isset( $_POST ['pass'])))
 
 			<div class="error">
 				<?php
-				if(isset( $_SESSION ['error_pass'])) echo $_SESSION ['error_pass'];
-				if(isset( $_SESSIONp ['error_email'])) echo $_SESSION ['error_email'];
+				if(isset( $_SESSION ['error_pass']))
+				{
+					echo $_SESSION ['error_pass'];
+					unset( $_SESSION ['error_pass']);
+				}
+				if(isset( $_SESSION ['error_email']))
+				{
+					echo $_SESSION ['error_email'];
+					unset( $_SESSION ['error_email']);
+				}
 				?>
 			</div>
 		</div>

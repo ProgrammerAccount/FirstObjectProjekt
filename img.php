@@ -12,8 +12,11 @@ if(! isset( $_SESSION ['zalogowany']))
 
 
 <!--Style css-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
 <link rel="stylesheet" href="css/style.css" type="text/css">
 <link rel="stylesheet" href="css/css/fontello.css" type="text/css">
+<!--<link rel="stylesheet" type="text/css" href="css/styleMobile.css" />
 <!--Fonts-->
 <link
 	href='https://fonts.googleapis.com/css?family=Lato:700&subset=latin,latin-ext'
@@ -22,49 +25,42 @@ if(! isset( $_SESSION ['zalogowany']))
 	href='https://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext'
 	rel='stylesheet' type='text/css'>
 <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
 <title>HostBook</title>
 
 </head>
 <body>
-
-	<div id="header">
+	<div class="container-fluid">
+		<div class="row header">
+			<div class="col-xs-12 Logo col-centered">
      Witaj w swoim konciku
        <?php echo $_SESSION['userName']; ?>
-  
 
-	</div>
-	<div id="menu">
-		<a href="muzyka.php"><div class="menu"
-				style="border-left: 2px dotted blue;">Muzyka</div></a> <a
-			href="filmy.php"><div class="menu">Filmy</div></a> <a href="img.php"><div
-				class="menu">Zdjecia</div></a> <a href="wyloguj.php"><div
-				class="menu">Wyloguj się</div></a>
-	</div>
-	<div id="main">
-		<a href="Upload.php"><h4 style="text-align: center">Dodaj zdjecie</h4></a>
-		<br />
+
+   </div>
+			<div style="clear: both"></div>
+		</div>
+
+		<div class="row  col-centered">
+			<a href="muzyka.php"><div class="col-xs-3 TopNavigaition" >Muzyka</div>
+			</a> <a href="filmy.php"><div class="col-xs-3 TopNavigaition">Filmy</div></a>
+            <a href="img.php"><div class="col-xs-3 TopNavigaition">Zdjecia</div></a>
+            <a href="wyloguj.php"><div class="col-xs-3 TopNavigaition" style="border:none;">Wyloguj	się</div></a>
+		</div>
+		<main> <a href="Upload.php"><h4 style="text-align: center">Dodaj
+				zdjecie</h4></a> <br />
 
 <?php
 
 $id = $_SESSION ['idUser'];
-/*
- * require 'showfiles.php';
- * $showfilms = new img();
- * $how_mutch_films = $showfilms->HowMutchFiles( "SELECT * FROM img WHERE id_user='" . $id . "' ORDER BY id DESC LIMIT 5");
- * $showfilms->TakeResult();
- * for($i = 0;$how_mutch_films > $i;$i++)
- * {
- * $showfilms->ShowFiles( $i,$id);
- * }
- */
 require_once 'ImgShow.php';
 ?>
-<div id="s"></div>
-	</div>
+    </main>
 
+        <div class="row">
 
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script type="text/javascript">
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+		<script type="text/javascript">
 	var loading=true;
 	var offset=0;
 	$( document ).ready(function() {
@@ -82,7 +78,7 @@ require_once 'ImgShow.php';
 			if(this.readyState==4 && this.status==200)
 			{
 				
-				document.getElementById("main").apped(this.responseText);
+				$("main").append(this.responseText);
 			}
 
 		    };
@@ -102,6 +98,8 @@ require_once 'ImgShow.php';
 
 	
 </script>
-
+            
+	</div>
+	</div>
 </body>
 </html>

@@ -17,7 +17,7 @@ if((isset( $_FILES ['file'])) && ($_FILES ['file'] ['tmp_name']))
 	$upload->LoadVariabile( 'file');
 	$upload->CheckTypeFile( $tmp_name);
 	$sizeError = $upload->size( 10000000);
-	$upload->VerifyFile( 'audio');
+	$upload->VerifyTypeFile( 'audio');
 	$upload->ElseNameNIW( $file_name,$_SESSION ['idUser'],"Music");
 	$path_to_move_file = "Upload/" . $_SESSION ['idUser'] . "/" . "muzyka/" . $upload->file_name;
 	$upload->MoveFile( $tmp_name,$path_to_move_file);
@@ -40,7 +40,8 @@ if((isset( $_FILES ['file'])) && ($_FILES ['file'] ['tmp_name']))
 <link rel="stylesheet" href="css/style.css" type="text/css">
 <link rel="stylesheet" href="css/css/fontello.css" type="text/css">
 <link rel="stylesheet" href="css/UploadInput.css" type="text/css">
-
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 <!--Fonts-->
 <link
@@ -48,32 +49,45 @@ if((isset( $_FILES ['file'])) && ($_FILES ['file'] ['tmp_name']))
 	rel='stylesheet' type='text/css'>
 <meta charset="utf-8" />
 <title>HostBook</title>
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+
 </head>
 <body>
-
-	<div id="header">
+<div class="container-fluid">
+		<div class="row header col-centered">
      Witaj w swoim konciku
        <?php echo $_SESSION['userName']; ?>
 
 
    </div>
-	<div id="menu">
-		<a href="muzyka.php"><div class="menu"
-				style="border-left: 2px dotted blue;">Muzyka</div></a> <a
-			href="filmy.php">
-			<div class="menu">Filmy</div>
-		</a> <a href="img.php"><div class="menu">Zdjecia</div></a> <a
-			href="wyloguj.php"><div class="menu">Wyloguj się</div></a>
-
+	<div class="row col-centered">
+		<a href="muzyka.php"><div class="col-xs-3 TopNavigaition"
+				style="border-left: 2px dotted blue;">Muzyka</div></a><a
+			href="filmy.php"><div class="col-xs-3 TopNavigaition">Filmy</div></a> <a href="img.php"><div
+				class="col-xs-3 TopNavigaition">Zdjecia</div></a> <a href="wyloguj.php"><div
+				class="col-xs-3 TopNavigaition">Wyloguj się</div></a>
 	</div>
-	<main>
-	<div id="containerForinput">
-		<form method="post" name="Uploadflm" enctype="multipart/form-data">
-			<input type="file" value="Poszukaj pliku" name="file"
-				accept="audio/*"> <br /> <input type="text" name="title"
-				placeholder="Tytół" maxlength="30"><br /> <input type="text"
-				name="description" placeholder="opis" maxlength="60"><br /> <input
-				type="submit" value="Wyslij Plik">
+	<main style="text-align:center;">
+       <div class="form-group">
+		<form method="post" class="form-group" name="UploadImg" enctype="multipart/form-data">
+            <div class="col-xs-4 col-centered">
+			<input  type="file" value="Poszukaj pliku" name="file"	accept="audio/*"> 
+            </div><br/>
+            <div class="col-xs-4 col-centered">
+            <input type="text"  class="form-control" name="title" placeholder="Tytół" maxlength="30">
+            </div><br/>
+            <div class="col-xs-4 col-centered">
+            <input type="text"   class="form-control" name="description" placeholder="opis" maxlength="60">
+            </div><br/>
+            <div class="col-xs-4 col-centered">
+			<input type="submit" value="Wyslij Plik">
+            </div><br/>
+  
+        
+            </div>
+                
+
+
 			<div id="errors">
 <?php
 if(isset( $upload->error_verify))
@@ -97,6 +111,7 @@ if(isset( $sizeError))
 
 	</main>
 
-</body>
+    </body>
 </html>
+
 

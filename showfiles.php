@@ -2,9 +2,9 @@
 abstract class File
 {
 private $type_file;
-protected $result;
+public $result;
 protected $connect;
-protected $array_witch_result;
+public $array_witch_result;
 function __construct()
 {
 	require ("connect.php");
@@ -16,26 +16,22 @@ function __construct()
 		exit();
 	}
 }
-function HowMutchFiles($query)
+function CallToDB($query)
 {
 	$this->result = $this->connect->query( $query);
-	
-	return $this->result->num_rows;
 }
 function TakeResult()
 {
-	$i = 0;
-	$this->result->num_rows;
-	while($this->result->num_rows != $i)
+	$numrows = $this->result->num_rows;
+	for($i = 0;$numrows > $i;$i++)
 	{
 		$this->array_witch_result [$i] = $this->result->fetch_assoc();
-		$i++;
 	}
 }
 function __destruct()
 {
-	$this->result->free();
 	$this->connect->close();
+	$this->result->free();
 }
 public abstract function ShowFiles($id_file, $id_user);
 }
@@ -44,7 +40,11 @@ class film extends File
 public function ShowFiles($id_file, $id_user)
 {
 	$src = "Upload/" . $id_user . "/filmy" . "/" . $this->array_witch_result [$id_file] ['file_name'];
-	echo '<div style="width:640px;height:400px;margin-left:auto;margin-right:auto;"><video src="' . $src . '" type="video/mp4" class="video" controls></video></div><br/>';
+	echo '
+    <div align="center" class="col-xs-9 col-centered" style="width:75%;">
+    <video src="' . $src . '" type="video/mp4" class="video" controls></video>
+    
+    </div><br/>';
 }
 }
 class audio extends File
@@ -83,13 +83,8 @@ public function ShowFiles($id_file, $id_user)
 {
 	$source = "Upload/" . $id_user . "/img" . "/" . $this->array_witch_result [$id_file] ['file_name'];
 	
-	echo '<div class="img"><div class="TestName">';
-	
-	echo '<input type="hidden" name="id_file" value="' . $this->array_witch_result [$id_file] ['id'] . ' ?>">';
-	echo '<input type="hidden" name="file_name" value="' . $this->array_witch_result [$id_file] ['file_name'] . '?>">';
-	echo '<input type="hidden" name="whereIsFileToDelete" value="img"></form>';
-	echo "</div>";
-	echo '<img class="img_size"  src="' . $source . '" />  </div>'; // TEN EFEKT POWIEKSZENIA TO CSS NIE JS
+	echo '<div class="img col-xs-9 col-centered">';
+	echo '<img class="img_size"  src="' . $source . '" /> ';  // TEN EFEKT POWIEKSZENIA ZDJECIA TO CSS NIE JS
 	echo "</div>";
 	echo "<br/>";
 }
