@@ -45,17 +45,35 @@
 
 
 				</div>
+				<ul>
+					<li>Pokaż listę wyników
+
+						<ul>
+		<?php
+		if((isset( $_GET ['FindingUser'])) && ($_GET ['FindingUser'] != ""))
+		{
+			require 'serach.php';
+			$serachEngine = new serachEngine();
+			$serachEngine->serachUser( $_GET ['FindingUser']);
+			$serachEngine->showresult();
+			unset( $_GET ['FindingUser']);
+		}
+		?>
+						</ul>
+					</li>
+
+
+				</ul>
 			</div>
 		</div>
 
 		<div style="clear: both"></div>
 		<div class="row">
-			<a href="muzyka.php"><div class="col-xs-3 TopNavigaition"
-					style="border-left: 2px solid gray;">Muzyka</div></a> <a
-				href="filmy.php"><div class="col-xs-3 TopNavigaition">Filmy</div></a>
+			<a href="muzyka.php"><div class="col-xs-3 TopNavigaition">Muzyka</div></a>
+			<a href="filmy.php"><div class="col-xs-3 TopNavigaition">Filmy</div></a>
 			<a href="img.php"><div class="col-xs-3 TopNavigaition">Zdjecia</div></a>
-			<a href="wyloguj.php"><div class="col-xs-3 TopNavigaition">Wyloguj
-					się</div></a>
+			<a href="wyloguj.php"><div class="col-xs-3 TopNavigaition"
+					style="border: none;">Wyloguj się</div></a>
 
 		</div>
 		<h2 style="text-align: center;">Witaj, To miejsce gdzie możesz

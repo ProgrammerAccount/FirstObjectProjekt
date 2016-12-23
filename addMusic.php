@@ -26,12 +26,12 @@ function sanitization($variable)
 {
 	$variable = htmlentities( $variable);
 	$variable = filter_var( $variable,FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_HIGH);
+	$variable = $this->connect->real_escape_string( $variable);
 	return $variable;
 }
-function SendAllToDB($file_name, $where)
+function SendAllToDB($sqlQuery)
 {
-	$query = sprintf( "INSERT INTO %s VALUES(NULL,'%d','%s','%s','%s')",$this->connect->real_escape_string( $where),$this->connect->real_escape_string( $this->id_user),$this->connect->real_escape_string( $this->title),$this->connect->real_escape_string( $file_name),$this->connect->real_escape_string( $this->description));
-	$this->connect->query( $query);
+	$this->connect->query( $sqlQuery);
 }
 }
 ?>

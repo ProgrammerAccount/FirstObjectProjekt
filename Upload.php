@@ -21,13 +21,13 @@ else
 	if((isset( $_FILES ['file'])) && ($_FILES ['file'] ['tmp_name']))
 	{
 		require ("Upload_function.php");
-		
+
 		$tmp_name = $_FILES ['file'] ['tmp_name'];
 		$file_name = $_FILES ['file'] ['name'];
 		// Wywoływanie klasy Upload
 		$upload = new UploadFile();
-		$upload->LoadVariabile( 'file');
-		$upload->CheckTypeFile( $tmp_name);
+		$upload->getInfoAboutFile( $tmp_name);
+		$upload->CheckExtension( $file_name);
 		$comment = $upload->SanitizationText( $_POST ['comment'],50);
 		$name = $upload->SanitizationText( $_POST ['name'],20);
 		$data = $_POST ['data'];
@@ -35,17 +35,19 @@ else
 		$upload->GetSize( $_FILES ['file'] ['tmp_name']);
 		$upload->VerifyTypeFile( 'image');
 		$upload->ElseNameNIW( $file_name,"img");
-		$path_to_move_file = "Upload/" . $_SESSION ['idUser'] . "/" . "img/" . $upload->file_name;
-		$upload->MoveFile( $tmp_name,$path_to_move_file);
+		$upload->MoveFile( $tmp_name,$_SESSION ['idUser']);
 		$upload->ValideDate( $data);
-		
-		if($howManyImage >= 100) $upload->good = false;
-		
+		if($howManyImage > 100) $upload->good = false;
 		if($upload->good == true)
 		{
-			
-			$sql_query = "INSERT INTO img VALUES(NULL,'" . $_SESSION ['idUser'] . "','" . $upload->file_name . "','" . DATE( $data) . "','" . $place . "','" . $comment . "','" . $name . "')";
+			if(isset( $_POST ['private']))
+				$checkbox = true;
+			else $checkbox = false;
+
+			$sql_query = "INSERT INTO img VALUES(NULL,'" . $_SESSION ['idUser'] . "','" . $upload->file_name . "','" . DATE( $data) . "','" . $place . "','" . $comment . "','" . $name . "','" . $checkbox . "')";
+			$connect_to_DB->query( $sql_query);
 			$howManyImage++;
+
 			$connect_to_DB->query( "UPDATE user SET howManyImage='" . $howManyImage . "' WHERE id='" . $_SESSION ['idUser'] . "' AND name='" . $_SESSION ['userName'] . "'");
 		}
 	}
@@ -79,15 +81,14 @@ else
        <?php echo $_SESSION['userName']; ?>
 
 
-   
+
    </div>
 		<div class="row">
-			<a href="muzyka.php"><div class="col-xs-3 TopNavigaition"
-					style="border-left: 2px dotted blue;">Muzyka</div></a><a
-				href="filmy.php"><div class="col-xs-3 TopNavigaition">Filmy</div></a>
+			<a href="muzyka.php"><div class="col-xs-3 TopNavigaition">Muzyka</div></a>
+			<a href="filmy.php"><div class="col-xs-3 TopNavigaition">Filmy</div></a>
 			<a href="img.php"><div class="col-xs-3 TopNavigaition">Zdjecia</div></a>
-			<a href="wyloguj.php"><div class="col-xs-3 TopNavigaition">Wyloguj
-					się</div></a>
+			<a href="wyloguj.php"><div class="col-xs-3 TopNavigaition"
+					style="border: none;">Wyloguj się</div></a>
 		</div>
 		<main style="text-align:center;">
 		<div class="form-group">
@@ -119,7 +120,12 @@ else
 						maxlength="30">
 				</div>
 				<br />
-		
+				<div class="col-xs-4 col-centered">
+					Public <input type="checkbox" class="form-control" name="private"
+						maxlength="30">
+				</div>
+				<br />
+
 		</div>
 
 		<div id="errors">
@@ -147,105 +153,8 @@ if(isset( $sizeError))
 		</main>
 
 	</div>
-	<script>
-  function CheckDate()
-  {
-	var date=document.getElementsByName('data').value;
-	var test= new RegExp("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/");
-	document.getElementById("errors").innerHTML=date.length;
-	if(!test.test(date))
-	{
-	var DateToday=new Date();
-	var year=	DateToday.getFullYear();
-	var month=	DateToday.getMonth();
-	month++;
-	if(month<10) month="0"+month;
-	var day=	DateToday.getDate();
-	if(day<10) day="0"+day;
-	document.getElementById("errors").innerHTML="Data w naszym serwisie musi być zapisywana w nastepujacy sposób np. "+year+"."+month+"."+day;	
- 	}
-	else
-	{
-		document.forms['UploadImg'].action = 'Upload.php';
-		document.forms['UploadImg'].submit();
-		}
-}
-  
-  </script>
-<?php
-if(isset( $upload->error_verify))
-{
-	$upload->error_verify;
-	unset( $upload);
-}
 
-?>
-
-    </body>
-</html>
-
-</div>
-<br />
-
-</div>
-
-<div id="errors">
-<?php
-if(isset( $upload->error_verify))
-{
-	echo $upload->error_verify;
-	unset( $upload->error_verify);
-}
-if(isset( $sizeError))
-{
-	echo $sizeError;
-	unset( $sizeError);
-}
-?>
-</div>
-
-
-
-
-
-
-</form>
-</main>
-
-</div>
-<script>
-  function CheckDate()
-  {
-	var date=document.getElementsByName('data').value;
-	var test= new RegExp("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/");
-	document.getElementById("errors").innerHTML=date.length;
-	if(!test.test(date))
-	{
-	var DateToday=new Date();
-	var year=	DateToday.getFullYear();
-	var month=	DateToday.getMonth();
-	month++;
-	if(month<10) month="0"+month;
-	var day=	DateToday.getDate();
-	if(day<10) day="0"+day;
-	document.getElementById("errors").innerHTML="Data w naszym serwisie musi być zapisywana w nastepujacy sposób np. "+year+"."+month+"."+day;	
- 	}
-	else
-	{
-		document.forms['UploadImg'].action = 'Upload.php';
-		document.forms['UploadImg'].submit();
-		}
-}
-  
-  </script>
-<?php
-if(isset( $upload->error_verify))
-{
-	$upload->error_verify;
-	unset( $upload);
-}
-
-?>
 
 </body>
 </html>
+

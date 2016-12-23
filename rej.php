@@ -8,9 +8,9 @@ require ("rejFunction.php");
 $rej = new Rejstracja();
 
 $rej->name = $_POST ['name'];
+$rej->SanitizationEmail( $_POST ['login']);
 
-$rej->VerifyEmial( $_POST ['login']);
-$rej->PasswordIsAlready( $_POST ['login']);
+$rej->EmailIsAlready();
 $rej->VerifyLengthPassword( $_POST ['pass']);
 $rej->SamePassword( $_POST ['passv2']);
 list ( $id, $email, $name ) = $rej->ConnectInsert();

@@ -43,13 +43,12 @@ margin-right:auto;
 background-color: #8A8A8A;
 width: 100% !important;
 text-align: center;
-    height: 100%;
     position: relative;
 padding: 20px !important;
     padding-left: 0;
     padding-right: 0;
     margin: 0;
-    height: auto;
+    height: 80px;
       font-size: 25px;
 
 }
@@ -60,6 +59,7 @@ padding: 20px !important;
   text-align: center;
   padding-top: 17px;
   letter-spacing:  normal;
+    z-index: 100;
 }
 a:link .TopNavigaition{
   color: white;
@@ -188,27 +188,6 @@ margin-right:auto;
 
 
 }
-
-.TopNavigaition{
-  border-right: 2px solid gray; 
-  height: 52px;
-  background-color:#53df6b;
-  text-align: center;
-  padding-top: 17px;
-  letter-spacing:  normal;
-}
-a:link .TopNavigaition{
-  color: white;
-  text-decoration: none;
-}
-a:visited .TopNavigaition{
-  color: white;
-  text-decoration: none;
-}
-a:hover .TopNavigaition{
-  color: gray;
-  text-decoration: none;
-}
 .zakladki{
 
   margin-left: auto;
@@ -335,4 +314,29 @@ a:hover .zakladki{
     margin-left: 0px !important;
     padding-right: 0px !important;
     margin-right: 0px !important;
+}
+ul 
+{
+    width:350px;
+    float: right;
+    height: 40px;
+    list-style-type:none;
+}
+ul>li>ul
+{
+      z-index: 3000;
+    position: fixed;
+}
+ul>li>ul>li 
+{
+    background-color: white;
+    width: 350px;
+    text-align: left;
+    list-style-type: none;
+    display: none;
+
+}
+ul > li:hover > ul > li
+{
+    display: block;
 }

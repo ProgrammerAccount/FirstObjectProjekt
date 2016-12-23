@@ -1,5 +1,5 @@
 <?php
-class serach
+class serachEngine
 {
 public $result;
 private $connect_to_DB;
@@ -20,13 +20,16 @@ function __destruct()
 }
 function serachUser($email)
 {
-	$this->result = $this->connect_to_DB->query( "SELECT * FROM user WHERE email LIKE'%" . $email . "%' LIMIT 25 ");
+	$this->result = $this->connect_to_DB->query( "SELECT * FROM user WHERE email LIKE'" . $email . "%' ORDER BY email ASC LIMIT 25 ");
 }
 function showresult() // Care!!!!!!!!!!!!!!!!!!!!!!!!!!!!! after run this Function U MUST RUN serachUSER!!!!!!!!!!!!!!!!!!!!!!!!!!
 {
-	$this->TableWithResult = $this->result->fetch_assoc();
-	while($this->result--)
-		echo "<tr><td>" . $this->TableWithResult ['email'] . "</td></tr>";
+	if($this->result != false)
+	{
+		while($this->TableWithResult = $this->result->fetch_assoc())
+			echo "<li>" . $this->TableWithResult ['email'] . "</li>";
+	}
+	unset( $this->TableWithResult);
 }
 }
 

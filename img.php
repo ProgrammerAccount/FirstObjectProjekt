@@ -5,6 +5,10 @@ if(! isset( $_SESSION ['zalogowany']))
 	header( "Location: index.php");
 	exit();
 }
+elseif((isset( $_GET ['id'])) && ($_GET ['id'] != ""))
+{
+	$_SESSION ['visitator'] = $_GET ['id'];
+}
 
 ?>
 <html lang="pl">
@@ -12,7 +16,8 @@ if(! isset( $_SESSION ['zalogowany']))
 
 
 <!--Style css-->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 <link rel="stylesheet" href="css/style.css" type="text/css">
 <link rel="stylesheet" href="css/css/fontello.css" type="text/css">
@@ -25,7 +30,8 @@ if(! isset( $_SESSION ['zalogowany']))
 	href='https://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext'
 	rel='stylesheet' type='text/css'>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+<meta name="viewport"
+	content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
 <title>HostBook</title>
 
 </head>
@@ -42,10 +48,11 @@ if(! isset( $_SESSION ['zalogowany']))
 		</div>
 
 		<div class="row  col-centered">
-			<a href="muzyka.php"><div class="col-xs-3 TopNavigaition" >Muzyka</div>
+			<a href="muzyka.php"><div class="col-xs-3 TopNavigaition">Muzyka</div>
 			</a> <a href="filmy.php"><div class="col-xs-3 TopNavigaition">Filmy</div></a>
-            <a href="img.php"><div class="col-xs-3 TopNavigaition">Zdjecia</div></a>
-            <a href="wyloguj.php"><div class="col-xs-3 TopNavigaition" style="border:none;">Wyloguj	się</div></a>
+			<a href="img.php"><div class="col-xs-3 TopNavigaition">Zdjecia</div></a>
+			<a href="wyloguj.php"><div class="col-xs-3 TopNavigaition"
+					style="border: none;">Wyloguj się</div></a>
 		</div>
 		<main> <a href="Upload.php"><h4 style="text-align: center">Dodaj
 				zdjecie</h4></a> <br />
@@ -57,27 +64,27 @@ require_once 'ImgShow.php';
 ?>
     </main>
 
-        <div class="row">
+		<div class="row">
 
-		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-		<script type="text/javascript">
+			<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+			<script type="text/javascript">
 	var loading=true;
 	var offset=0;
 	$( document ).ready(function() {
 	$(window).scroll(function() { //detect page scroll
 		var scroll=$(window).scrollTop()+1000;
-	    if(scroll >= $(window).height()&&loading==true)  //if user 
-	    	{ 
-	    	
+	    if(scroll >= $(window).height()&&loading==true)  //if user
+	    	{
+
 	    	loading=false;
 	    	if (window.XMLHttpRequest)
 	    	ConnectAjax= new XMLHttpRequest();
-	    	 else 
+	    	 else
 	    		 ConnectAjax = new ActiveXObject("Microsoft.XMLHTTP");
 	    	ConnectAjax.onreadystatechange = function (){
 			if(this.readyState==4 && this.status==200)
 			{
-				
+
 				$("main").append(this.responseText);
 			}
 
@@ -87,8 +94,8 @@ require_once 'ImgShow.php';
 		    ConnectAjax.send();
 
 	    	}
-	    if(scroll <= $(window).height())  //if user 
-    	{ 
+	    if(scroll <= $(window).height())  //if user
+    	{
     	loading=true;
 
     	}
@@ -96,10 +103,13 @@ require_once 'ImgShow.php';
 				});
 	});
 
-	
+
 </script>
-            
-	</div>
+
+		</div>
 	</div>
 </body>
 </html>
+<?php
+if(! isset( $_GET ['id'])) unset( $_SESSION ['visitator']);
+?>

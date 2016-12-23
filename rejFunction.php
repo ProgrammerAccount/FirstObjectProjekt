@@ -65,13 +65,13 @@ function ConnectInsert()
 {
 	if($this->good == true)
 	{
-		$this->save_email = $this->connect_to_DB->real_escape_string( $this->email);
+		$this->save_email = $this->connect_to_DB->real_escape_string( $this->save_email);
 		$this->name = $this->connect_to_DB->real_escape_string( $this->name);
 		$this->name = htmlentities( $this->name);
 		
-		if($result = $this->connect_to_DB->query( "INSERT INTO user VALUES(NULL,'" . $this->email . "','" . password_hash( $this->password,PASSWORD_DEFAULT) . "','" . $this->name . "','0','0','0',false)"))
+		if($result = $this->connect_to_DB->query( "INSERT INTO user VALUES(NULL,'" . $this->save_email . "','" . password_hash( $this->password,PASSWORD_DEFAULT) . "','" . $this->name . "','0','0','0',false)"))
 		{
-			$rezultat = $this->connect_to_DB->query( "SELECT * FROM user WHERE email='" . $this->email . "'");
+			$rezultat = $this->connect_to_DB->query( "SELECT * FROM user WHERE email='" . $this->save_email . "'");
 			$array = $rezultat->fetch_assoc();
 			$rezultat->free();
 			return array (

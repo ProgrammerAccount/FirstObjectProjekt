@@ -9,7 +9,7 @@ if((! isset( $_SESSION ['zalogowany'])) && (! isset( $_SESSION ['idUser'])))
 if((isset( $_FILES ['file'])) && ($_FILES ['file'] ['tmp_name']))
 {
 	require ("Upload_function.php");
-	
+
 	$tmp_name = $_FILES ['file'] ['tmp_name'];
 	$file_name = $_FILES ['file'] ['name'];
 	// Wywoływanie klasy Upload
@@ -29,7 +29,10 @@ if((isset( $_FILES ['file'])) && ($_FILES ['file'] ['tmp_name']))
 		$musicUpload->id_user = $_SESSION ['idUser'];
 		$musicUpload->title = $musicUpload->sanitization( $_POST ['title']);
 		$musicUpload->description = $musicUpload->sanitization( $_POST ['description']);
-		$musicUpload->SendAllToDB( $file_name,"Music");
+		if(isset( $_POST ['private']))
+			$checkbox = true;
+		else $checkbox = false;
+		$musicUpload->SendAllToDB( "INSERT INTO music VALUES(NULL,'" . $_SESSION ['idUser'] . "','" . $musicUpload->title . "','" . $musicUpload->description . "','" . $checkbox . "')");
 	}
 }
 ?>
@@ -49,46 +52,54 @@ if((isset( $_FILES ['file'])) && ($_FILES ['file'] ['tmp_name']))
 	rel='stylesheet' type='text/css'>
 <meta charset="utf-8" />
 <title>HostBook</title>
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+<meta name="viewport"
+	content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
 
 </head>
 <body>
-<div class="container-fluid">
+	<div class="container-fluid">
 		<div class="row header col-centered">
      Witaj w swoim konciku
        <?php echo $_SESSION['userName']; ?>
 
 
-   </div>
-	<div class="row col-centered">
-		<a href="muzyka.php"><div class="col-xs-3 TopNavigaition"
-				style="border-left: 2px dotted blue;">Muzyka</div></a><a
-			href="filmy.php"><div class="col-xs-3 TopNavigaition">Filmy</div></a> <a href="img.php"><div
-				class="col-xs-3 TopNavigaition">Zdjecia</div></a> <a href="wyloguj.php"><div
-				class="col-xs-3 TopNavigaition">Wyloguj się</div></a>
-	</div>
-	<main style="text-align:center;">
-       <div class="form-group">
-		<form method="post" class="form-group" name="UploadImg" enctype="multipart/form-data">
-            <div class="col-xs-4 col-centered">
-			<input  type="file" value="Poszukaj pliku" name="file"	accept="audio/*"> 
-            </div><br/>
-            <div class="col-xs-4 col-centered">
-            <input type="text"  class="form-control" name="title" placeholder="Tytół" maxlength="30">
-            </div><br/>
-            <div class="col-xs-4 col-centered">
-            <input type="text"   class="form-control" name="description" placeholder="opis" maxlength="60">
-            </div><br/>
-            <div class="col-xs-4 col-centered">
-			<input type="submit" value="Wyslij Plik">
-            </div><br/>
-  
-        
-            </div>
-                
+</div>
+		<div class="row col-centered">
+			<a href="muzyka.php"><div class="col-xs-3 TopNavigaition">Muzyka</div></a><a
+				href="filmy.php"><div class="col-xs-3 TopNavigaition">Filmy</div></a>
+			<a href="img.php"><div class="col-xs-3 TopNavigaition">Zdjecia</div></a>
+			<a href="wyloguj.php"><div class="col-xs-3 TopNavigaition"
+					style="border: none;">>Wyloguj się</div></a>
+		</div>
+		<main style="text-align:center;">
+		<div class="form-group">
+			<form method="post" class="form-group" name="UploadImg"
+				enctype="multipart/form-data">
+				<div class="col-xs-4 col-centered">
+					<input type="file" value="Poszukaj pliku" name="file"
+						accept="audio/*">
+				</div>
+				<br />
+				<div class="col-xs-4 col-centered">
+					<input type="text" class="form-control" name="title"
+						placeholder="Tytół" maxlength="30">
+				</div>
+				<br />
+				<div class="col-xs-4 col-centered">
+					<input type="text" class="form-control" name="description"
+						placeholder="opis" maxlength="60">
+				</div>
+				<br />
+				<div class="col-xs-4 col-centered">
+					<input type="submit" value="Wyslij Plik">
+				</div>
+				<br />
+
+		</div>
 
 
-			<div id="errors">
+
+		<div id="errors">
 <?php
 if(isset( $upload->error_verify))
 {
@@ -103,7 +114,7 @@ if(isset( $sizeError))
 ?>
 
 </div>
-	
+
 	</div>
 	</form>
 
@@ -111,7 +122,7 @@ if(isset( $sizeError))
 
 	</main>
 
-    </body>
+</body>
 </html>
 
 

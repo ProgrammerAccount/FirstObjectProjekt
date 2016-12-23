@@ -1,6 +1,0 @@
-function SetHeight(var uchwyt)
-{
-
-    
-    
-}

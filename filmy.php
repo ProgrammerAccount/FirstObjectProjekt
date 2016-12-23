@@ -28,7 +28,8 @@ else $idFile = ($_POST ['nr_id'] - 1) * 5;
 	href='https://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext'
 	rel='stylesheet' type='text/css'>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+<meta name="viewport"
+	content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
 
 <title>HostBook</title>
 <style>
@@ -53,10 +54,11 @@ else $idFile = ($_POST ['nr_id'] - 1) * 5;
 			<div style="clear: both"></div>
 		</div>
 		<div class="row">
-			<a href="muzyka.php"><div class="col-xs-3 TopNavigaition" style="border-left: 2px solid gray;">Muzyka</div>
+			<a href="muzyka.php"><div class="col-xs-3 TopNavigaition">Muzyka</div>
 			</a> <a href="filmy.php"><div class="col-xs-3 TopNavigaition">Filmy</div></a>
-            <a href="img.php"><div class="col-xs-3 TopNavigaition">Zdjecia</div></a>
-            <a href="wyloguj.php"><div class="col-xs-3 TopNavigaition">Wyloguj	się</div></a>
+			<a href="img.php"><div class="col-xs-3 TopNavigaition">Zdjecia</div></a>
+			<a href="wyloguj.php"><div class="col-xs-3 TopNavigaition"
+					style="border: none;">>Wyloguj się</div></a>
 		</div>
 		<div style="clear: both"></div>
 		<a href="UploadFilm.php"><h4 style="text-align: center">Dodaj Film</h4></a>
@@ -94,6 +96,6 @@ else $idFile = ($_POST ['nr_id'] - 1) * 5;
         }
   
     </script>
-</div>
+	</div>
 </body>
 </html>
