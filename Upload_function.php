@@ -1,6 +1,6 @@
 <?php
 
-class UploadFile
+class ReadyFileToUpload
 {
     // atrybuty
     private $concent_type;
@@ -20,7 +20,20 @@ class UploadFile
 
     private $connect;
     // metody
-    public function __construct ()
+    public function __construct ($OrginalFileName, $tmp_name)
+    {
+        $this->tmp_file_name = $tmp_name;
+        $info = finfo_open(FILEINFO_MIME_TYPE);
+        $this->concent_type = finfo_file($info, $this->tmp_file_name);
+        finfo_close($info);
+        pathinfo($this->tmp_file_name);
+        $this->file_size = filesize($this->tmp_file_name);
+        $this->file_name = $OrginalFileName;
+        $this->file_type = pathinfo($this->file_name, PATHINFO_EXTENSION);
+        $this->connect();
+    }
+
+    private function connect ()
     {
         require 'connect.php';
         $this->connect = new mysqli($host, $user, $pass, $base);
@@ -34,23 +47,7 @@ class UploadFile
         $this->connect->close();
     }
 
-    public function getInfoAboutFile ($tmp_name) // dodaj
-    {
-        $this->tmp_file_name = $tmp_name;
-        $info = finfo_open(FILEINFO_MIME_TYPE);
-        $this->concent_type = finfo_file($info, $this->tmp_file_name);
-        finfo_close($info);
-        pathinfo($this->tmp_file_name);
-        $this->file_size = filesize($this->tmp_file_name);
-    }
-    // ---------------
-    public function CheckExtension ($fileName)
-    {
-        $this->file_name = $fileName;
-        $this->file_type = pathinfo($this->file_name, PATHINFO_EXTENSION);
-    }
-
-    public function size ($LimitSizeInBytes) // REFAKTORYZAJCA
+    public function VerifySizeFile ($LimitSizeInBytes)
     {
         if ($this->file_size >= $LimitSizeInBytes) {
             $this->good = false;
@@ -59,45 +56,46 @@ class UploadFile
     }
 
     // ---------------
-    public function VerifyTypeFile ($type)
+    public function VerifyTypeFile ()
     {
         $obj = new Strategy();
-        $obj->setType($type);
-        if ($obj->getType()->CheckFile($this->file_type, $this->concent_type) ==
-                 false) {
-            $this->error_verify = $obj->getType()->ReturnError();
+        $obj->setType($this->concent_type);
+        if ($obj->getType() == false) {
             $this->good = false;
-        }
-    }
-    // ---------------
-    public function ElseNameNIW ($name, $where)
-    {
-        $i = 0;
-        $this->file_name = md5($name) . "." . $this->file_type;
-        $return = $this->connect->query(
-                "SELECT * FROM $where WHERE file_name='" . $this->file_name . "'");
-
-        if ($return != false) {
-            if ($return->num_rows > 0) {
-                while (@$return->num_rows > 0) {
-
-                    $i ++;
-                    $this->file_name = $i . $this->file_name;
-                    $return = $this->connect->query(
-                            "SELECT * FROM $where WHERE file_name='" .
-                                     $this->file_name . "'");
-                }
+        } else {
+            $obj->getType()->CheckExtesion($this->file_type);
+            if ($obj->getType()->good == false) {
+                $this->error_verify = $obj->getType()->ReturnError();
+                $this->good = false;
             }
         }
     }
+    // ---------------
+    public function VerifyName ($where) // usuń $where
+    {
+        $this->file_name = md5($this->file_name);
+        $return = $this->connect->query(
+                "SELECT * FROM $where WHERE file_name='" . $this->file_name . "'");
 
-    public function MoveFile ($tmp_path, $idUser)
+        if ($return != false)
+            while (@$return->num_rows > 0) {
+
+                $this->file_name = $this->file_name . $this->file_name;
+                $return = $this->connect->query(
+                        "SELECT * FROM $where WHERE file_name='" .
+                                 $this->file_name . "'");
+            }
+
+        $this->file_name = $this->file_name . "." . $this->file_type;
+    }
+
+    public function MoveFile ($idUser)
     {
         if ($this->good == true) {
 
-            chmod($tmp_path, 0777);
+            chmod($this->tmp_file_name, 0777);
             $path = "Upload/" . $idUser . "/" . "img" . "/" . $this->file_name;
-            move_uploaded_file($tmp_path, $path);
+            move_uploaded_file($this->tmp_file_name, $path);
         }
     }
     // ---------------
@@ -117,9 +115,9 @@ class UploadFile
         }
     }
     // ---------------
-    function GetSize ($name_file)
+    function GetSize ()
     {
-        $size = getimagesize($name_file);
+        $size = getimagesize($this->tmp_file_name);
         if (! $size) {
             return "to nie jest zdjecie";
             $this->good = false;
@@ -151,7 +149,7 @@ class UploadFile
 interface file
 {
 
-    public function CheckFile ($type, $mime);
+    public function CheckExtesion ($type);
 
     public function ReturnError ();
 }
@@ -159,26 +157,22 @@ interface file
 class image implements file
 {
 
-    public $good;
+    public $good = true;
 
-    function CheckFile ($type, $mime)
+    function CheckExtesion ($type)
     {
-        $this->good = true;
-
         if (($type != "png") && ($type != "gif") && ($type != "jpg") &&
                  ($type != "jpeg")) {
             $this->good = false;
         }
-        if (! strstr($mime, "image")) {
-            $this->good = false;
-        }
+
         return $this->good;
     }
     // ---------------
     function ReturnError ()
     {
         if ($this->good == false) {
-            return "Tu możesz dodać tylko pliki jpg jpeg png gif!";
+            return "Nieprawidłowy plik lub rozszeżenie";
         }
     }
 }
@@ -186,23 +180,20 @@ class image implements file
 class film implements file
 {
 
-    public $good;
+    public $good = true;
 
-    function CheckFile ($type, $mime)
+    function CheckExtesion ($type)
     {
-        $this->good = true;
-
         if ($type != "mp4")
             $this->good = false;
-        if (! strstr($mime, "video"))
-            $this->good = false;
+
         return $this->good;
     }
     // ---------------
     function ReturnError ()
     {
         if ($this->good == false) {
-            return "Tu możesz dodać tylko pliki jpg jpeg png gif!";
+            return "Nieprawidłowy plik lub rozszeżenie";
         }
     }
 }
@@ -210,24 +201,18 @@ class film implements file
 class audio implements file
 {
 
-    public $good;
+    public $good = true;
 
-    function CheckFile ($type, $mime)
+    function CheckExtesion ($type)
     {
-        $this->good = true;
         if ($type != "mp3")
             $this->good = false;
-
-        if (! strstr($mime, "audio"))
-            $this->good = false;
-
-        return $this->good;
     }
     // ---------------
     function ReturnError ()
     {
         if ($this->good == false) {
-            return "Tu możesz dodać tylko pliki jpg jpeg png gif!";
+            return "Nieprawidłowy plik lub rozszeżenie";
         }
     }
 }
@@ -240,14 +225,19 @@ class Strategy
     public function setType ($type)
     {
         switch ($type) {
-            case "audio":
+            case strstr($type, "audio"):
                 $this->strategy = new audio();
                 break;
-            case "image":
+            case strstr($type, "image"):
                 $this->strategy = new image();
                 break;
-            case "video":
+            case strstr($type, "video"):
                 $this->strategy = new film();
+                break;
+            default:
+                {
+                    $this->strategy = false;
+                }
                 break;
         }
     }
