@@ -60,9 +60,12 @@ class ReadyFileToUpload
     {
         $obj = new Strategy();
         $obj->setType($this->concent_type);
-        if ($obj->getType() == false) {
+        if ($obj->getType() == false)
+        {
+            $this->error_verify = "To nie jest img";
             $this->good = false;
-        } else {
+        } 
+        else {
             $obj->getType()->CheckExtesion($this->file_type);
             if ($obj->getType()->good == false) {
                 $this->error_verify = $obj->getType()->ReturnError();
@@ -89,13 +92,14 @@ class ReadyFileToUpload
         $this->file_name = $this->file_name . "." . $this->file_type;
     }
 
-    public function MoveFile ($idUser)
+    public function MoveFile ($idUser,$where)
     {
         if ($this->good == true) {
 
             chmod($this->tmp_file_name, 0777);
-            $path = "Upload/" . $idUser . "/" . "img" . "/" . $this->file_name;
-            move_uploaded_file($this->tmp_file_name, $path);
+            $path = "Upload/" . $idUser . "/" . $where . "/" . $this->file_name;
+            if(move_uploaded_file($this->tmp_file_name, $path))
+                return true;
         }
     }
     // ---------------

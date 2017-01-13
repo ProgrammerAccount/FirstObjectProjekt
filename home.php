@@ -1,4 +1,8 @@
-<?php session_start();?>
+<?php session_start();
+if (!isset($_SESSION['zalogowany']))
+header("Location: index.php")
+?>
+
 <html>
 <head>
 <!--Style css-->

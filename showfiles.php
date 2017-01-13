@@ -5,6 +5,7 @@ private $type_file;
 public $result;
 protected $connect;
 public $array_witch_result;
+public $numrows;
 function __construct()
 {
 	require ("connect.php");
@@ -16,21 +17,30 @@ function __construct()
 		exit();
 	}
 }
+public function CheckNumRows()
+{
+	if($this->result!=false)
+		$this->numrows = $this->result->num_rows;
+	else $this->numrows=0;
+}
 function CallToDB($query)
 {
-	$this->result = $this->connect->query( $query);
+
+	if($this->result=$this->connect->query( $query))
+		return true;
 }
 function TakeResult()
-{
-	$numrows = $this->result->num_rows;
-	for($i = 0;$numrows > $i;$i++)
+{	
+	for($i = 0;$this->numrows > $i;$i++)
 	{
 		$this->array_witch_result [$i] = $this->result->fetch_assoc();
 	}
+
 }
 function __destruct()
 {
 	$this->connect->close();
+	if(($this->result!=false)&&($this->result!=NULL))
 	$this->result->free();
 }
 public abstract function ShowFiles($id_file, $id_user);

@@ -35,7 +35,8 @@ function RecaptchaVerify($captcha, $secret_key)
 	if($response->success == false) $this->error_captcha = "Pokaż że nie jestęś robotem!";
 }
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
-function LoginPassVerifyAndConnect($email, $password)
+function 
+function LoginPassVerify($email, $password)
 {
 	if($this->error_captcha == "")
 	{
@@ -47,10 +48,12 @@ function LoginPassVerifyAndConnect($email, $password)
 		{
 			$arrayWithResult = $result->fetch_assoc();
 			
-			if(password_verify( $password,$arrayWithResult ['pass']))
+			if(password_verify( $password,$arrayWithResult ['password']))
 			{
 				$login = true;
 				header( "Location: home.php");
+						$result->free();
+
 				return array (
 						$arrayWithResult ['id'],
 						$arrayWithResult ['name'],
@@ -61,14 +64,16 @@ function LoginPassVerifyAndConnect($email, $password)
 			else
 			{
 				$this->error_login = "Nie ma takiego konta.";
+				return false;
 			}
 		}
 		
 		else
 		{
 			$this->error_login = "Nie ma takiego konta.";
+			return false;
+
 		}
-		$result->free();
 	}
 }
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
